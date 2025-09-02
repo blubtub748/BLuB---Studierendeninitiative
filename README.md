@@ -1,1 +1,1 @@
-# BLuB---Studierendeninitiative
+# BLuB-Studierendeninitiative
