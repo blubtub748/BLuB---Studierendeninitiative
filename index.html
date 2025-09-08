@@ -106,5 +106,17 @@
   <footer>
     © 2010 BLuB – Für Euch von uns mit ❤️
   </footer>
+  <script>
+  const checkbox = document.getElementById("zustimmung");
+  const abschnitt = document.getElementById("geheimerAbschnitt");
+
+  checkbox.addEventListener("change", function() {
+    if (checkbox.checked) {
+      abschnitt.style.display = "block";
+    } else {
+      abschnitt.style.display = "none";
+    }
+  });
+</script>
 </body>
 </html>
