@@ -136,6 +136,81 @@
     } else {
       abschnitt.style.display = "none";
     }
+    <!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Klick-Effekt</title>
+  <style>
+    body {
+      background: #000;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      cursor: crosshair;
+      user-select: none;
+    }
+
+    h1 {
+      color: #fff;
+      text-align: center;
+      padding-top: 40vh;
+      font-family: sans-serif;
+    }
+
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Klick irgendwo!</h1>
+
+  <script>
+    document.addEventListener('click', (e) => {
+      const sparkCount = 8;       // Anzahl der Funken
+      const sparkColor = '#fff';  // Farbe
+      const sparkSize = 10;       // Größe in px
+      const sparkRadius = 15;     // Entfernung vom Klickpunkt
+      const duration = 400;       // Dauer in ms
+
+      for (let i = 0; i < sparkCount; i++) {
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.style.width = spark.style.height = sparkSize + 'px';
+        spark.style.background = sparkColor;
+        spark.style.left = `${e.pageX - sparkSize / 2}px`;
+        spark.style.top = `${e.pageY - sparkSize / 2}px`;
+        document.body.appendChild(spark);
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * sparkRadius * 2;
+
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        spark.animate(
+          [
+            { transform: `translate(0, 0)`, opacity: 1 },
+            { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
+          ],
+          {
+            duration: duration,
+            easing: 'ease-out'
+          }
+        );
+
+        setTimeout(() => spark.remove(), duration);
+      }
+    });
+  </script>
+</body>
+</html>
   });
 </script>
 </body>
