@@ -7,19 +7,19 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      /* Hintergrundbild setzen */
-      background-image: url('hintergrundblub.JPG'); /* oder .png */
-      background-size: cover;      /* Bild füllt den ganzen Bildschirm */
-      background-position: center; /* Bild zentrieren */
-      background-repeat: repeat; /* wiederholen */
+      background-image: url('hintergrundblub.JPG');
+      background-size: cover;
+      background-position: center;
+      background-repeat: repeat;
       color: #fff;
       text-align: center;
-      }
+      overflow-x: hidden;
+    }
     header {
       padding: 20px;
       background: rgba(0,0,0,0.3);
       position: sticky;
-      top: 3;
+      top: 0;
     }
     header img {
       width: 500px;
@@ -55,11 +55,20 @@
       background: rgba(0,0,0,0.6);
       font-size: 1em;
     }
+    /* Funkenstil */
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+    }
   </style>
 </head>
+
 <body>
   <header>
-    <!-- Logo einfügen (Logo-Datei in dein Repository hochladen, z. B. logo.png) -->
     <a href="#start">
       <img src="blublogo.jpg.JPG" alt="Unser Logo" style="max-width: 40%; height: auto;">
     </a>
@@ -72,41 +81,43 @@
   </header>
 
   <section id="start" class="hero">
-  <h1>Willkommen auf unserer Website</h1>
-  <h2>Studierendeninitiative der Studierendengänge Biotechnologie, Lebensmitteltechnologie, Brauerei- und Getränketechnologie</h2>
-  <p>Kommt vorbei zum Plenum jeden 1. Dienstag im Monat um 18 Uhr</p>
-</section>  
-<section id="about">
+    <h1>Willkommen auf unserer Website</h1>
+    <h2>Studierendeninitiative der Studiengänge Biotechnologie, Lebensmitteltechnologie, Brauerei- und Getränketechnologie</h2>
+    <p>Kommt vorbei zum Plenum jeden 1. Dienstag im Monat um 18 Uhr</p>
+  </section>
+
+  <section id="about">
+    <h2>Über uns</h2>
+    <p></p>
+  </section>
+
   <section id="zugang">
-  <h2>Zugang zu BLuB-Memes</h2>
-  <label>
-    <input type="checkbox" id="zustimmung">
-    Ich bin ein TU-Student
-  </label>
+    <h2>Zugang zu BLuB-Memes</h2>
+    <label>
+      <input type="checkbox" id="zustimmung">
+      Ich bin ein TU-Student
+    </label>
 
-  <div id="geheimerAbschnitt" style="display: none; margin-top: 20px;">
-    <h3>Memes der BLuB</h3>
-    <p>Tatütata!</p>
-  </div>
-</section>
-  <h2>Über uns</h2>
-  <p></p>
-</section>
+    <div id="geheimerAbschnitt" style="display: none; margin-top: 20px;">
+      <h3>Memes der BLuB</h3>
+      <p>Tatütata!</p>
+    </div>
+  </section>
 
-<section id="projects">
-  <h2>Projekte</h2>
-  <p>Hier stellst du deine Projekte vor.</p>
-</section>
-<section id="instagram">
+  <section id="projects">
+    <h2>Projekte</h2>
+    <p>Hier stellst du deine Projekte vor.</p>
+  </section>
+
+  <section id="instagram">
     <h2>Unser Instagram 📸</h2>
-    <!-- SnapWidget -->
     <iframe 
-      src="https://snapwidget.com/embed/1107269" 
-      class="snapwidget-widget" 
-      allowtransparency="true" 
-      frameborder="0" 
-      scrolling="no" 
-      style="border:none; overflow:hidden; width:100%; max-width:765px; height:689.99px; margin:0 auto; display:block;" 
+      src="https://snapwidget.com/embed/1107269"
+      class="snapwidget-widget"
+      allowtransparency="true"
+      frameborder="0"
+      scrolling="no"
+      style="border:none; overflow:hidden; width:100%; max-width:765px; height:690px; margin:0 auto; display:block;"
       title="Posts from Instagram">
     </iframe>
     <p>
@@ -114,70 +125,36 @@
         ➡️ Folge uns auf Instagram - Jippie :D
       </a>
     </p>
-</section>
+  </section>
 
-<section id="contact">
-  <h2>Kontakt</h2>
-  <p>Café Erdreich, Gebäude Z-002</p>
-  <p>Plenum jeden 1. Dienstag im Monat um 18 Uhr</p>
-  <p>blub.tuberlin@gmail.com</p>
-</section>
+  <section id="contact">
+    <h2>Kontakt</h2>
+    <p>Café Erdreich, Gebäude Z-002</p>
+    <p>Plenum jeden 1. Dienstag im Monat um 18 Uhr</p>
+    <p>blub.tuberlin@gmail.com</p>
+  </section>
 
   <footer>
     © 2010 BLuB – Für Euch von uns mit ❤️
   </footer>
+
+  <!-- ✅ Dein JavaScript -->
   <script>
-  const checkbox = document.getElementById("zustimmung");
-  const abschnitt = document.getElementById("geheimerAbschnitt");
+    // --- Checkbox-Logik ---
+    const checkbox = document.getElementById("zustimmung");
+    const abschnitt = document.getElementById("geheimerAbschnitt");
 
-  checkbox.addEventListener("change", function() {
-    if (checkbox.checked) {
-      abschnitt.style.display = "block";
-    } else {
-      abschnitt.style.display = "none";
-    }
-    <!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <title>Klick-Effekt</title>
-  <style>
-    body {
-      background: #000;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-      cursor: crosshair;
-      user-select: none;
-    }
+    checkbox.addEventListener("change", function() {
+      abschnitt.style.display = checkbox.checked ? "block" : "none";
+    });
 
-    h1 {
-      color: #fff;
-      text-align: center;
-      padding-top: 40vh;
-      font-family: sans-serif;
-    }
-
-    .spark {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: white;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body>
-  <h1>Klick irgendwo!</h1>
-
-  <script>
+    // --- Klick-Funken-Effekt ---
     document.addEventListener('click', (e) => {
-      const sparkCount = 8;       // Anzahl der Funken
-      const sparkColor = '#fff';  // Farbe
-      const sparkSize = 10;       // Größe in px
-      const sparkRadius = 15;     // Entfernung vom Klickpunkt
-      const duration = 400;       // Dauer in ms
+      const sparkCount = 8;
+      const sparkColor = '#fff';
+      const sparkSize = 10;
+      const sparkRadius = 15;
+      const duration = 400;
 
       for (let i = 0; i < sparkCount; i++) {
         const spark = document.createElement('div');
@@ -209,9 +186,5 @@
       }
     });
   </script>
-</body>
-</html>
-  });
-</script>
 </body>
 </html>
