@@ -2,76 +2,161 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>BLuB - Studierendeninitiative der TU Berlin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLuB – Studierendeninitiative der TU Berlin</title>
+
+  <!-- Google Fonts für modernes Look -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
   <style>
-    body {
+    /* === Grundlayout === */
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-image: url('hintergrundblub.JPG');
-      background-size: cover;
-      background-position: center;
-      background-repeat: repeat;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
       color: #fff;
-      text-align: center;
+      background-color: #000;
       overflow-x: hidden;
       cursor: url('cursor.png'), auto;
+      scroll-behavior: smooth;
     }
+
+    /* === Header / Navigation === */
     header {
-      padding: 20px;
-      background: rgba(0,0,0,0.3);
-      position: sticky;
+      position: fixed;
       top: 0;
+      width: 100%;
+      z-index: 10;
+      padding: 20px 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      text-align: center;
     }
+
     header img {
-      width: 500px;
-      vertical-align: middle;
+      width: 300px;
+      max-width: 60%;
     }
+
     nav {
       margin-top: 10px;
     }
+
     nav a {
       margin: 0 15px;
       color: #f9a826;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
       transition: color 0.3s;
     }
+
     nav a:hover {
       color: #ffcb6b;
     }
+
+    /* === Video Hero === */
     .hero {
-      padding: 80px 20px;
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
     }
-    .hero h1 {
-      font-size: 3em;
+
+    #bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.5);
+    }
+
+    .overlay {
+      position: relative;
+      z-index: 1;
+      padding: 0 20px;
+      max-width: 800px;
+    }
+
+    .overlay h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .overlay h2 {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #ddd;
       margin-bottom: 20px;
     }
-    .hero p {
-      font-size: 1.3em;
-      color: #ddd;
+
+    .overlay p {
+      font-size: 1.2rem;
+      color: #ffcb6b;
     }
+
+    /* === Abschnitts-Design === */
+    section {
+      padding: 120px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      color: #f9a826;
+      margin-bottom: 20px;
+    }
+
     footer {
-      margin-top: 50px;
-      padding: 20px;
-      background: rgba(0,0,0,0.6);
-      font-size: 1em;
+      background: rgba(0, 0, 0, 0.8);
+      text-align: center;
+      padding: 30px;
+      font-size: 1rem;
+      margin-top: 80px;
     }
-    /* Funkenstil */
+
+    /* === Funkeneffekt === */
     .spark {
       position: absolute;
       width: 6px;
       height: 6px;
-      background: white;
+      background: #f9a826;
       border-radius: 50%;
       pointer-events: none;
+    }
+
+    /* === Animationen beim Scrollen === */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 
 <body>
+
+  <!-- === Header === -->
   <header>
     <a href="#start">
-      <img src="blublogo.jpg.JPG" alt="Unser Logo" style="max-width: 40%; height: auto;">
+      <img src="blublogo.jpg.JPG" alt="BLuB Logo">
     </a>
     <nav>
       <a href="#start">Start</a>
@@ -81,94 +166,81 @@
     </nav>
   </header>
 
+  <!-- === Hero mit Video === -->
   <section id="start" class="hero">
-    <h1>Willkommen auf unserer Website</h1>
-    <h2>Studierendeninitiative der Studiengänge Biotechnologie, Lebensmitteltechnologie, Brauerei- und Getränketechnologie</h2>
-    <p>Kommt vorbei zum Plenum jeden 1. Dienstag im Monat um 18 Uhr</p>
-  </section>
-
-  <section id="about">
-    <h2>Über uns</h2>
-    <p></p>
-  </section>
-
-  <section id="zugang">
-    <h2>Zugang zu BLuB-Memes</h2>
-    <label>
-      <input type="checkbox" id="zustimmung">
-      Ich bin ein TU-Student
-    </label>
-
-    <div id="geheimerAbschnitt" style="display: none; margin-top: 20px;">
-      <h3>Memes der BLuB</h3>
-      <p>Tatütata!</p>
+    <video autoplay muted loop playsinline id="bg-video" poster="fallback.jpg">
+      <source src="videos/hintergrund.mp4" type="video/mp4">
+    </video>
+    <div class="overlay">
+      <h1>Willkommen bei BLuB</h1>
+      <h2>Studierendeninitiative der TU Berlin</h2>
+      <p>Plenum jeden 1. Dienstag im Monat – 18 Uhr · Café Erdreich</p>
     </div>
   </section>
 
-  <section id="projects">
-    <h2>Projekte</h2>
-    <p>Hier stellst du deine Projekte vor.</p>
+  <!-- === Über uns === -->
+  <section id="about" class="fade-in">
+    <h2>Über uns</h2>
+    <p>Wir sind die Studierendeninitiative der Studiengänge Biotechnologie, Lebensmitteltechnologie, Brauerei- und Getränketechnologie. Wir fördern Austausch, Spaß und gute Getränke!</p>
   </section>
 
-  <section id="instagram">
+  <!-- === Projekte === -->
+  <section id="projects" class="fade-in">
+    <h2>Projekte</h2>
+    <p>Von Exkursionen und Bierbrau-Workshops bis hin zu Nachhaltigkeitsaktionen – bei uns ist immer was los!</p>
+  </section>
+
+  <!-- === Instagram === -->
+  <section id="instagram" class="fade-in">
     <h2>Unser Instagram 📸</h2>
     <iframe 
       src="https://snapwidget.com/embed/1107269"
-      class="snapwidget-widget"
       allowtransparency="true"
       frameborder="0"
       scrolling="no"
       style="border:none; overflow:hidden; width:100%; max-width:765px; height:690px; margin:0 auto; display:block;"
       title="Posts from Instagram">
     </iframe>
-    <p>
+    <p style="margin-top:15px;">
       <a href="https://instagram.com/blub_tub" target="_blank" style="color:#f9a826; font-weight:bold;">
-        ➡️ Folge uns auf Instagram - Jippie :D
+        ➡️ Folge uns auf Instagram
       </a>
     </p>
   </section>
 
-  <section id="contact">
+  <!-- === Kontakt === -->
+  <section id="contact" class="fade-in">
     <h2>Kontakt</h2>
     <p>Café Erdreich, Gebäude Z-002</p>
-    <p>Plenum jeden 1. Dienstag im Monat um 18 Uhr</p>
     <p>blub.tuberlin@gmail.com</p>
   </section>
 
+  <!-- === Footer === -->
   <footer>
-    © 2010 BLuB – Für Euch von uns mit ❤️
+    © 2010–2025 BLuB – Für Euch von uns mit ❤️
   </footer>
 
-  <!-- ✅ Dein JavaScript -->
+  <!-- === JavaScript === -->
   <script>
-    // --- Checkbox-Logik ---
-    const checkbox = document.getElementById("zustimmung");
-    const abschnitt = document.getElementById("geheimerAbschnitt");
-
-    checkbox.addEventListener("change", function() {
-      abschnitt.style.display = checkbox.checked ? "block" : "none";
-    });
-
-    // --- Klick-Funken-Effekt ---
+    // === Funken-Effekt ===
     document.addEventListener('click', (e) => {
       const sparkCount = 20;
-      const sparkColor = '#e63946';
-      const sparkSize = 20;
+      const sparkColor = '#f9a826';
+      const sparkSize = 10;
       const sparkRadius = 50;
       const duration = 900;
 
       for (let i = 0; i < sparkCount; i++) {
         const spark = document.createElement('div');
         spark.className = 'spark';
-        spark.style.width = spark.style.height = sparkSize + 'px';
         spark.style.background = sparkColor;
+        spark.style.width = spark.style.height = sparkSize + 'px';
         spark.style.left = `${e.pageX - sparkSize / 2}px`;
         spark.style.top = `${e.pageY - sparkSize / 2}px`;
         document.body.appendChild(spark);
 
         const angle = Math.random() * 2 * Math.PI;
         const distance = Math.random() * sparkRadius * 2;
-
         const x = Math.cos(angle) * distance;
         const y = Math.sin(angle) * distance;
 
@@ -177,15 +249,24 @@
             { transform: `translate(0, 0)`, opacity: 1 },
             { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
           ],
-          {
-            duration: duration,
-            easing: 'ease-out'
-          }
+          { duration, easing: 'ease-out' }
         );
 
         setTimeout(() => spark.remove(), duration);
       }
     });
+
+    // === Fade-in Animation beim Scrollen ===
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
+
 </body>
 </html>
