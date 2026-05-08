@@ -384,21 +384,47 @@
     .tag-hopo    { background: rgba(177,29,37,0.2);   color: #e06060; }
     .tag-learn   { background: rgba(62,84,22,0.3);    color: var(--sage); }
 
-    /* ── INSTAGRAM ───────────────────────────── */
+    /* ── INSTAGRAM GRID ──────────────────────── */
     #instagram { background: var(--navy); }
 
-    .insta-embed {
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(240,237,225,0.1);
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
       max-width: 780px;
+      margin-bottom: 24px;
     }
 
-    .insta-embed iframe {
+    .insta-post {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
       display: block;
-      width: 100%;
-      border: none;
+      background: rgba(240,237,225,0.06);
     }
+
+    .insta-post img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .insta-post:hover img { transform: scale(1.05); }
+
+    .insta-post-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(16,33,55,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .insta-post:hover .insta-post-overlay { opacity: 1; }
 
     .insta-link {
       display: inline-flex;
@@ -520,6 +546,67 @@
       color: var(--text-dim);
     }
 
+    /* ── INSTAGRAM GRID ─────────────────────────── */
+    #instagram { background: var(--navy); }
+
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      max-width: 720px;
+      margin-bottom: 24px;
+    }
+
+    .insta-post {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      display: block;
+      background: rgba(240,237,225,0.06);
+    }
+
+    .insta-post img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .insta-post:hover img { transform: scale(1.05); }
+
+    .insta-post-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(16,33,55,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .insta-post:hover .insta-post-overlay { opacity: 1; }
+
+    /* Placeholder wenn Bild fehlt */
+    .insta-post img[src=""] ,
+    .insta-post img:not([src]) {
+      display: none;
+    }
+
+    .insta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--orange);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .insta-link:hover { color: var(--yellow); }
+
     /* ── CONTACT ─────────────────────────────── */
     #contact {
       background: var(--navy);
@@ -629,13 +716,13 @@
   <!-- ══ HEADER ══ -->
   <header>
     <a href="#start" style="display:flex; align-items:center;">
-      <img src="BLuB_Flasche_und_Kolben_01_Zeichenfläche_1.svg" alt="BLuB" style="height:42px; width:auto; filter: drop-shadow(0 0 6px rgba(239,147,36,0.3));">
+      <img src="blublogo.svg" alt="BLuB" style="height:42px; width:auto; filter: drop-shadow(0 0 6px rgba(239,147,36,0.3));">
     </a>
     <nav>
       <a href="#about">Über uns</a>
       <a href="#calendar">Kalender</a>
-      <a href="#hopo">Hochschulpolitik</a>
       <a href="#instagram">Instagram</a>
+      <a href="#hopo">Hochschulpolitik</a>
       <a href="#contact">Kontakt</a>
       <a href="mailto:blub.tuberlin@gmail.com" class="nav-cta">Mitmachen</a>
     </nav>
@@ -648,7 +735,7 @@
     </video>
     <div class="hero-overlay"></div>
 
-    <div class="hero-content">
+    <div class="hero-content" style="padding-top: 80px;">
       <!-- SVG Logo groß eingebettet -->
       <img
         src="blublogo.svg"
@@ -656,14 +743,7 @@
         class="hero-logo"
       >
 
-      <p class="hero-eyebrow">Studierendeninitiative · TU Berlin</p>
-      <h1 class="hero-title">
-        Zusammen <em>wachsen,</em><br>gemeinsam wirken.
-      </h1>
-      <p class="hero-sub">
-        BLuB verbindet Studierende der Biotechnologie, Lebensmitteltechnologie
-        und Brauerei- & Getränketechnologie – und alle, die dazugehören wollen.
-      </p>
+      <p class="hero-eyebrow">Studierendeninitiative der TU Berlin</p>
       <div class="hero-meta">
         <div class="hero-meta-item">
           <span class="hero-meta-label">Plenum</span>
@@ -701,13 +781,12 @@
           <p>
             BLuB ist die Studierendeninitiative der Studiengänge Biotechnologie,
             Lebensmitteltechnologie sowie Brauerei- und Getränketechnologie an der
-            Technischen Universität Berlin. Wir sind offen für alle Studierenden,
-            die Lust haben, Teil einer aktiven Gemeinschaft zu sein.
+            Technischen Universität Berlin. Offen für alle, die Teil einer aktiven
+            Gemeinschaft sein wollen.
           </p>
           <p>
-            Unsere Ziele: Vernetzung fördern, Studierende in der Hochschulpolitik
-            stärken, gemeinsam feiern und voneinander lernen. Bei uns gibt es kein
-            Minimum an Engagement – komm einfach vorbei.
+            Wir vernetzen, feiern, lernen voneinander und bringen uns in die
+            Hochschulpolitik ein. Wer Lust hat, kommt einfach vorbei.
           </p>
         </div>
         <div class="stats-grid">
@@ -812,13 +891,72 @@
 
   <div class="divider"></div>
 
+  <!-- ══ INSTAGRAM ══ -->
+  <section id="instagram">
+    <div class="section-inner fade-in">
+      <span class="section-label">Social Media</span>
+      <h2 class="section-title">Folge uns auf Instagram.</h2>
+
+      <!--
+        ANLEITUNG: Lade 6 Bilder in deinen GitHub-Repo-Ordner hoch,
+        benenne sie insta-1.jpg bis insta-6.jpg
+        und ersetze die href-Links mit den URLs der echten Instagram-Posts.
+      -->
+      <div class="insta-grid">
+        <a href="https://instagram.com/blub_tub" target="_blank" class="insta-post">
+          <img src="insta-1.jpg" alt="Instagram Post 1" loading="lazy">
+          <div class="insta-post-overlay">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/blub_tub" target="_blank" class="insta-post">
+          <img src="insta-2.jpg" alt="Instagram Post 2" loading="lazy">
+          <div class="insta-post-overlay">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/blub_tub" target="_blank" class="insta-post">
+          <img src="insta-3.jpg" alt="Instagram Post 3" loading="lazy">
+          <div class="insta-post-overlay">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/blub_tub" target="_blank" class="insta-post">
+          <img src="insta-4.jpg" alt="Instagram Post 4" loading="lazy">
+          <div class="insta-post-overlay">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/blub_tub" target="_blank" class="insta-post">
+          <img src="insta-5.jpg" alt="Instagram Post 5" loading="lazy">
+          <div class="insta-post-overlay">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+          </div>
+        </a>
+        <a href="https://instagram.com/blub_tub" target="_blank" class="insta-post">
+          <img src="insta-6.jpg" alt="Instagram Post 6" loading="lazy">
+          <div class="insta-post-overlay">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+          </div>
+        </a>
+      </div>
+
+      <a href="https://instagram.com/blub_tub" target="_blank" class="insta-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @blub_tub auf Instagram
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <!-- ══ HOCHSCHULPOLITIK ══ -->
   <section id="hopo">
     <div class="section-inner fade-in">
       <span class="section-label">Hochschulpolitik</span>
       <h2 class="section-title">Deine Uni. Deine Stimme.</h2>
       <p class="hopo-intro">
-        Hochschulpolitik klingt abstrakt – ist es aber nicht. Sie entscheidet darüber,
+        Hochschulpolitik klingt abstrakt, ist es aber nicht. Sie entscheidet darüber,
         wie dein Studium aussieht: Welche Prüfungsordnungen gelten, wie Ressourcen
         verteilt werden, ob eure Meinungen gehört werden. BLuB engagiert sich, damit
         Studierende der Life-Science-Fachbereiche eine starke Stimme haben.
@@ -839,9 +977,9 @@
           <h3 class="hopo-card-title">Was macht der AStA?</h3>
           <p class="hopo-card-body">
             Der Allgemeine Studierendenausschuss (AStA) ist die Exekutive der
-            Studierendenschaft. Er bietet Beratung (BAföG, Recht, Soziales), organisiert
-            Veranstaltungen und setzt politische Beschlüsse des StuPa um. Der AStA ist
-            dein direkter Ansprechpartner für Probleme im Studienalltag.
+            Studierendenschaft. Er bietet Beratung zu BAföG, Recht und sozialen Fragen,
+            organisiert Veranstaltungen und setzt Beschlüsse des StuPa um. Er ist
+            der direkte Ansprechpartner bei Problemen im Studienalltag.
           </p>
         </div>
         <div class="hopo-card">
@@ -850,82 +988,16 @@
           <p class="hopo-card-body">
             In jedem Fachbereich gibt es einen Fachbereichsrat (FBR), der über Lehre,
             Studienordnungen und Personalentscheidungen mitentscheidet. Studentische
-            Vertreter:innen im FBR haben echten Einfluss – und BLuB unterstützt euch,
+            Vertreter:innen im FBR haben echten Einfluss. BLuB unterstützt euch,
             diese Positionen aktiv zu besetzen und zu nutzen.
           </p>
         </div>
       </div>
       <div class="hopo-links">
-        <a href="https://www.asta.tu-berlin.de/" target="_blank" class="hopo-link-btn">→ AStA TU Berlin</a>
-        <a href="https://www.stupa.tu-berlin.de/" target="_blank" class="hopo-link-btn">→ StuPa TU Berlin</a>
-        <a href="mailto:blub.tuberlin@gmail.com" class="hopo-link-btn">→ BLuB kontaktieren</a>
+        <a href="https://www.asta.tu-berlin.de/" target="_blank" class="hopo-link-btn">AStA TU Berlin</a>
+        <a href="https://www.stupa.tu-berlin.de/" target="_blank" class="hopo-link-btn">StuPa TU Berlin</a>
+        <a href="mailto:blub.tuberlin@gmail.com" class="hopo-link-btn">BLuB kontaktieren</a>
       </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ══ PROJEKTE ══ -->
-  <section id="projects">
-    <div class="section-inner fade-in">
-      <span class="section-label">Projekte & Aktivitäten</span>
-      <h2 class="section-title">Bei uns ist immer was los.</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="project-card-accent" style="background:var(--orange);"></div>
-          <h3 class="project-card-title">Gemeinsam lernen</h3>
-          <p class="project-card-body">Lerngruppen, Altklausuren, Zusammenfassungen teilen – vor allem in der Prüfungsphase stehen wir füreinander ein. Niemand bereitet sich alleine vor.</p>
-        </div>
-        <div class="project-card">
-          <div class="project-card-accent" style="background:var(--sage);"></div>
-          <h3 class="project-card-title">Billard & Kicker</h3>
-          <p class="project-card-body">Entspannung nach der Vorlesung im Café Erdreich. Komm einfach vorbei – eine Anmeldung brauchst du nicht.</p>
-        </div>
-        <div class="project-card">
-          <div class="project-card-accent" style="background:var(--yellow);"></div>
-          <h3 class="project-card-title">Partys & Events</h3>
-          <p class="project-card-body">Von Semesterauftakt bis Sommergrillabend – wir veranstalten Events, bei denen Menschen aus allen Fachbereichen zusammenkommen.</p>
-        </div>
-        <div class="project-card">
-          <div class="project-card-accent" style="background:var(--red);"></div>
-          <h3 class="project-card-title">Hochschulpolitik</h3>
-          <p class="project-card-body">Wir begleiten StuPa-Sitzungen, informieren über Beschlüsse und unterstützen euch dabei, aktiv an der Gestaltung eures Studiums teilzunehmen.</p>
-        </div>
-        <div class="project-card">
-          <div class="project-card-accent" style="background:var(--green);"></div>
-          <h3 class="project-card-title">Brauerei-Exkursionen</h3>
-          <p class="project-card-body">Als Initiative der Brauerei- und Getränketechnologie organisieren wir Betriebsbesichtigungen und Verkostungen – mit echtem Fachbezug.</p>
-        </div>
-        <div class="project-card">
-          <div class="project-card-accent" style="background:var(--orange);"></div>
-          <h3 class="project-card-title">Plenum & Vernetzung</h3>
-          <p class="project-card-body">Jeden ersten Dienstag im Monat treffen wir uns. Alle dürfen reden, abstimmen und Ideen einbringen. Demokratisch, offen, auf Augenhöhe.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ══ INSTAGRAM ══ -->
-  <section id="instagram">
-    <div class="section-inner fade-in">
-      <span class="section-label">Social Media</span>
-      <h2 class="section-title">Folge uns auf Instagram.</h2>
-      <div class="insta-embed">
-        <iframe
-          src="https://snapwidget.com/embed/1107269"
-          allowtransparency="true"
-          frameborder="0"
-          scrolling="no"
-          style="width:100%; max-width:765px; height:690px; display:block;"
-          title="Posts from Instagram">
-        </iframe>
-      </div>
-      <a href="https://instagram.com/blub_tub" target="_blank" class="insta-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        @blub_tub auf Instagram
-      </a>
     </div>
   </section>
 
@@ -940,7 +1012,7 @@
         <div>
           <p class="contact-body">
             Du musst nichts mitbringen außer Neugier. Ob du dich engagieren willst,
-            Fragen zu deinem Studium hast oder einfach nette Leute kennenlernen möchtest –
+            Fragen zu deinem Studium hast oder einfach nette Leute kennenlernen möchtest,
             bei BLuB bist du willkommen.
           </p>
           <div class="contact-detail">
@@ -977,8 +1049,8 @@
         <div style="background:rgba(239,147,36,0.06); border:1px solid rgba(239,147,36,0.15); padding:36px; border-radius:4px;">
           <p style="font-family:'DM Serif Display',serif; font-size:1.4rem; margin-bottom:16px;">Mitmachen?</p>
           <p style="font-size:0.88rem; line-height:1.75; color:var(--text-dim); margin-bottom:24px;">
-            Schreib uns einfach eine Mail oder komm zum nächsten Plenum.
-            Wir freuen uns über jede:n, der Lust hat mitzumachen –
+            Schreib uns eine Mail oder komm zum nächsten Plenum.
+            Wir freuen uns über jede:n mit Lust mitzumachen,
             egal aus welchem Studiengang.
           </p>
           <a href="mailto:blub.tuberlin@gmail.com"
