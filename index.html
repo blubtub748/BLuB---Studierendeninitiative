@@ -396,58 +396,107 @@
     <div class="section-inner fade-in">
       <span class="section-label">Hochschulpolitik</span>
       <h2 class="section-title">Deine Uni. Deine Stimme.</h2>
-      <p class="hopo-intro">
-        Hochschulpolitik entscheidet darüber, wie dein Studium aussieht. BLuB bringt
-        Studierende in die Gremien, wo Entscheidungen getroffen werden. Hover über die Organe um mehr zu erfahren.
-      </p>
-
       <div class="org-chart">
         <div class="org-tree">
 
+          <!-- Ebene 1: Präsidium -->
           <div class="org-level">
-            <div class="org-node" data-title="TU Berlin – Universitätsleitung" data-body="Akademischer Senat und Präsidium leiten die Universität. Sie entscheiden über Grundsatzfragen, Struktur und Ressourcen.">
-              <div class="org-node-title">TU Berlin</div>
-              <div class="org-node-sub">Universitätsleitung</div>
+            <div class="org-node" style="min-width:200px;"
+              data-title="Präsidium"
+              data-body="Leitet die TU Berlin und verantwortet Strategie, Ressourcen und Außenvertretung der Universität.">
+              <div class="org-node-title">Präsidium</div>
+              <div class="org-node-sub">Präsidentin Prof. Dr. Fatma Deniz</div>
             </div>
           </div>
 
           <div class="org-connector" style="height:22px;"></div>
 
+          <!-- Ebene 2: Kuratorium / Akademischer Senat / Gremien -->
           <div class="org-level">
-            <div class="org-node" data-title="Akademischer Senat" data-body="Höchstes beschlussfassendes Gremium der TU Berlin. Entscheidet über Satzungen und Studienordnungen, wählt das Präsidium. Studierende sind mit Sitzen vertreten.">
-              <div class="org-node-title">Akademischer Senat</div>
-              <div class="org-node-sub">Oberstes Gremium</div>
+            <div class="org-node"
+              data-title="Kuratorium (KU)"
+              data-body="Beratendes Aufsichtsgremium, das das Präsidium kontrolliert und die TU Berlin in der Gesellschaft verankert.">
+              <div class="org-node-title">Kuratorium</div>
+              <div class="org-node-sub">Aufsicht & Beratung</div>
             </div>
-            <div class="org-node blub-node" data-title="Studierendenparlament (StuPa)" data-body="Höchstes beschlussfassendes Gremium der Studierendenschaft. Wählt den AStA, beschließt den Haushalt und vertritt eure Interessen. Jede:r kann kandidieren." data-member="BLuB-Mitglied: [Name eintragen]">
+            <div class="org-node"
+              data-title="Akademischer Senat (AS)"
+              data-body="Höchstes Beschlussgremium der TU Berlin – entscheidet über Satzungen, Studienordnungen und wählt das Präsidium.">
+              <div class="org-node-title">Akademischer Senat</div>
+              <div class="org-node-sub">Oberstes Gremium der TUB</div>
+            </div>
+            <div class="org-node"
+              data-title="Erweiterter Akademischer Senat (EAS)"
+              data-body="Wählt die Präsidentin und berät über grundlegende Fragen der Hochschulentwicklung.">
+              <div class="org-node-title">Erw. Akad. Senat</div>
+              <div class="org-node-sub">Wählt Präsidium</div>
+            </div>
+          </div>
+
+          <div class="org-connector" style="height:22px;"></div>
+
+          <!-- Ebene 3: Fakultäten + Studierendenschaft -->
+          <div class="org-level">
+            <div class="org-node"
+              data-title="Fakultäten I–VII"
+              data-body="Die sieben Fakultäten organisieren Lehre und Forschung – BLuB gehört zur Fakultät III Prozesswissenschaften.">
+              <div class="org-node-title">Fakultäten I–VII</div>
+              <div class="org-node-sub">Fak. III: Prozesswissenschaften</div>
+            </div>
+            <div class="org-node blub-node"
+              data-title="Studierendenparlament (StuPa)"
+              data-body="Höchstes Gremium der Studierendenschaft: wählt den AStA, beschließt den Haushalt und vertritt alle Studierenden."
+              data-member="BLuB-Mitglied: [Name eintragen]">
               <div class="org-node-title">StuPa</div>
               <div class="org-node-sub">Studierendenparlament</div>
               <div class="org-node-blub-badge">BLuB</div>
             </div>
+            <div class="org-node"
+              data-title="Zentrale Universitätsverwaltung"
+              data-body="Sechs Abteilungen (Studienservice, Personal, Finanzen, Gebäude, Forschung, Internationales) unterstützen den Uni-Betrieb.">
+              <div class="org-node-title">Verwaltung</div>
+              <div class="org-node-sub">Abt. I–VI</div>
+            </div>
           </div>
 
           <div class="org-connector" style="height:22px;"></div>
 
+          <!-- Ebene 4: Fachbereichsrat + AStA + BLuB -->
           <div class="org-level">
-            <div class="org-node" data-title="Fachbereichsrat (FBR)" data-body="Entscheidet über Lehre, Prüfungsordnungen und Personalentscheidungen im Fachbereich. Studentische Mitglieder haben echten Einfluss auf euer Studium.">
+            <div class="org-node blub-node"
+              data-title="Fachbereichsrat Fakultät III"
+              data-body="Entscheidet über Lehre, Prüfungsordnungen und Personal im Fachbereich – BLuB-Mitglieder sitzen hier mit am Tisch."
+              data-member="BLuB-Mitglied: [Name eintragen]">
               <div class="org-node-title">Fachbereichsrat</div>
-              <div class="org-node-sub">Fachbereich III / VIII</div>
+              <div class="org-node-sub">Fakultät III</div>
+              <div class="org-node-blub-badge">BLuB</div>
             </div>
-            <div class="org-node blub-node" data-title="AStA – Allgemeiner Studierendenausschuss" data-body="Die Exekutive der Studierendenschaft. Bietet Beratung zu BAföG, Recht und sozialen Fragen, organisiert Veranstaltungen und setzt StuPa-Beschlüsse um." data-member="BLuB-Mitglied: [Name eintragen]">
+            <div class="org-node blub-node"
+              data-title="AStA – Allgemeiner Studierendenausschuss"
+              data-body="Exekutive der Studierendenschaft: Beratung, Veranstaltungen, Interessenvertretung – euer direkter Ansprechpartner bei Problemen."
+              data-member="BLuB-Mitglied: [Name eintragen]">
               <div class="org-node-title">AStA</div>
-              <div class="org-node-sub">Allg. Studierendenausschuss</div>
+              <div class="org-node-sub">Studierendenvertretung</div>
               <div class="org-node-blub-badge">BLuB</div>
             </div>
-            <div class="org-node blub-node" data-title="Fachschaftsrat BLuB" data-body="BLuB ist der Fachschaftsrat für Biotechnologie, Lebensmitteltechnologie und Brauerei- & Getränketechnologie. Wir vertreten eure Interessen direkt im Fachbereich." data-member="Sprecht uns direkt an!">
-              <div class="org-node-title">Fachschaftsrat</div>
-              <div class="org-node-sub">BLuB</div>
-              <div class="org-node-blub-badge">BLuB</div>
+            <div class="org-node blub-node"
+              style="border-color:var(--orange); background:rgba(239,147,36,0.12);"
+              data-title="BLuB – Fachschaftsrat"
+              data-body="Wir vertreten Studierende der Biotechnologie, Lebensmitteltechnologie und Brauerei- & Getränketechnologie direkt im Fachbereich."
+              data-member="Sprecht uns an: blub.tuberlin@gmail.com">
+              <div class="org-node-title" style="color:var(--orange);">BLuB</div>
+              <div class="org-node-sub">Fachschaftsrat</div>
+              <div class="org-node-blub-badge">Wir!</div>
             </div>
           </div>
 
           <div class="org-connector" style="height:22px;"></div>
 
+          <!-- Ebene 5: Studierende -->
           <div class="org-level">
-            <div class="org-node" style="background:rgba(172,187,125,0.05);border-color:rgba(172,187,125,0.2);" data-title="Alle Studierenden" data-body="Jede:r Studierende kann wählen, kandidieren und sich einbringen. Deine Stimme zählt. BLuB hilft dir dabei, sie zu nutzen.">
+            <div class="org-node" style="background:rgba(172,187,125,0.05);border-color:rgba(172,187,125,0.2);"
+              data-title="Alle Studierenden"
+              data-body="Du kannst wählen, kandidieren und mitgestalten – BLuB hilft dir dabei, deine Stimme zu nutzen.">
               <div class="org-node-title" style="color:var(--sage);">Studierende</div>
               <div class="org-node-sub">Du bist hier</div>
             </div>
