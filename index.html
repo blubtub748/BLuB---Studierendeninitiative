@@ -607,6 +607,40 @@
     }
     .insta-link:hover { color: var(--yellow); }
 
+    /* ── CAFÉ STATUS WIDGET ──────────────────── */
+    .cafe-status-widget {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 4px;
+      border: 1px solid rgba(240,237,225,0.12);
+      background: rgba(240,237,225,0.04);
+      margin-bottom: 28px;
+      font-size: 0.85rem;
+      transition: border-color 0.4s, background 0.4s;
+    }
+    .cafe-status-widget.is-open {
+      border-color: rgba(172,187,125,0.4);
+      background: rgba(172,187,125,0.08);
+    }
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      flex-shrink: 0;
+      transition: background 0.4s;
+    }
+    .cafe-status-widget.is-open  .status-dot { background: #7abf5e; box-shadow: 0 0 8px rgba(122,191,94,0.6); animation: pulse 2s ease-in-out infinite; }
+    .cafe-status-widget.is-closed .status-dot { background: #b05050; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(122,191,94,0.5); }
+      50%       { box-shadow: 0 0 14px rgba(122,191,94,0.9); }
+    }
+    .status-label { font-weight: 600; color: var(--cream); }
+    .status-message { color: var(--text-dim); font-size: 0.8rem; }
+    .status-time { color: var(--text-dim); font-size: 0.72rem; opacity: 0.6; margin-left: auto; padding-left: 12px; }
+
     /* ── CONTACT ─────────────────────────────── */
     #contact {
       background: var(--navy);
@@ -1015,6 +1049,14 @@
             Fragen zu deinem Studium hast oder einfach nette Leute kennenlernen möchtest,
             bei BLuB bist du willkommen.
           </p>
+
+          <!-- Café Status: Discord Link -->
+          <a href="https://discord.gg/EUER-INVITE-LINK" target="_blank" class="cafe-status-widget" style="text-decoration:none;">
+            <span style="font-size:1.1rem;">💬</span>
+            <span class="status-label">Café Erdreich offen?</span>
+            <span class="status-message">· Im Discord nachschauen</span>
+          </a>
+
           <div class="contact-detail">
             <div class="contact-item">
               <div class="contact-icon">📍</div>
@@ -1100,6 +1142,52 @@
       });
     }, { threshold: 0.15 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── Café Status laden ──────────────────────────────────────────
+    async function loadCafeStatus() {
+      const widget    = document.getElementById('cafeStatus');
+      const labelEl   = document.getElementById('statusLabel');
+      const msgEl     = document.getElementById('statusMsg');
+      const timeEl    = document.getElementById('statusTime');
+
+      try {
+        // Cache-Buster damit der Browser nicht die alte Version nimmt
+        const res = await fetch('status.json?t=' + Date.now());
+        if (!res.ok) throw new Error('Nicht gefunden');
+        const data = await res.json();
+
+        if (data.open) {
+          widget.classList.add('is-open');
+          widget.classList.remove('is-closed');
+          labelEl.textContent = 'Café Erdreich ist geöffnet';
+          msgEl.textContent   = data.message ? '· ' + data.message : '';
+        } else {
+          widget.classList.add('is-closed');
+          widget.classList.remove('is-open');
+          labelEl.textContent = 'Café Erdreich ist geschlossen';
+          msgEl.textContent   = '';
+        }
+
+        // Zeitstempel anzeigen
+        if (data.updated_at) {
+          const d = new Date(data.updated_at);
+          const formatted = d.toLocaleString('de-DE', {
+            day: '2-digit', month: '2-digit',
+            hour: '2-digit', minute: '2-digit'
+          });
+          timeEl.textContent = 'Stand: ' + formatted;
+        }
+      } catch (e) {
+        // Falls status.json noch nicht existiert, still ignorieren
+        labelEl.textContent = 'Café Erdreich';
+        msgEl.textContent   = '';
+        timeEl.textContent  = '';
+      }
+    }
+
+    // Beim Laden und dann alle 3 Minuten aktualisieren
+    loadCafeStatus();
+    setInterval(loadCafeStatus, 3 * 60 * 1000);
   </script>
 
 </body>
