@@ -5,265 +5,1028 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BLuB – Studierendeninitiative der TU Berlin</title>
 
-  <!-- Google Fonts für modernes Look -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    /* === Grundlayout === */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --navy:   #102137;
+      --red:    #B11D25;
+      --cream:  #F0EDE1;
+      --green:  #3E5416;
+      --sage:   #ACBB7D;
+      --orange: #EF9324;
+      --yellow: #F5E32E;
+
+      --text-main: var(--cream);
+      --text-dim:  rgba(240,237,225,0.6);
+      --bg:        var(--navy);
+      --accent:    var(--orange);
     }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-      background-color: #000;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
       overflow-x: hidden;
-      cursor: url('cursor.png'), auto;
-      scroll-behavior: smooth;
     }
 
-    /* === Header / Navigation === */
+    /* ── TYPOGRAPHY ─────────────────────────── */
+    .serif { font-family: 'DM Serif Display', serif; }
+
+    /* ── HEADER ─────────────────────────────── */
     header {
-      position: static;
-      width: 100%;
-      padding: 20px 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(6px);
-      text-align: center;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(16,33,55,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(240,237,225,0.08);
+      transition: background 0.3s;
     }
 
-    header img {
-      width: 300px;
-      max-width: 60%;
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--orange);
+      letter-spacing: 0.04em;
+      text-decoration: none;
     }
 
-    nav {
-      margin-top: 10px;
-    }
+    nav { display: flex; gap: 36px; align-items: center; }
 
     nav a {
-      margin: 0 15px;
-      color: #f9a826;
+      color: var(--cream);
       text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      transition: opacity 0.2s, color 0.2s;
     }
+    nav a:hover { opacity: 1; color: var(--orange); }
 
-    nav a:hover {
-      color: #ffcb6b;
+    .nav-cta {
+      background: var(--orange);
+      color: var(--navy) !important;
+      opacity: 1 !important;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 600 !important;
     }
+    .nav-cta:hover { background: var(--yellow); color: var(--navy) !important; }
 
-    /* === Video Hero === */
+    /* ── HERO ────────────────────────────────── */
     .hero {
       position: relative;
-      height: 100vh;
-      width: 100%;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
+      padding: 0 48px 80px;
       overflow: hidden;
     }
 
     #bg-video {
       position: absolute;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
+      inset: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
       z-index: 0;
-      filter: brightness(0.5);
+      filter: brightness(0.28) saturate(0.7);
     }
 
-    .overlay {
-      position: relative;
-      z-index: 1;
-      padding: 0 20px;
-      max-width: 800px;
-    }
-
-    .overlay h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
-      font-weight: 600;
-    }
-
-    .overlay h2 {
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: #ddd;
-      margin-bottom: 20px;
-    }
-
-    .overlay p {
-      font-size: 1.2rem;
-      color: #ffcb6b;
-    }
-
-    /* === Abschnitts-Design === */
-    section {
-      padding: 120px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    section h2 {
-      font-size: 2rem;
-      color: #f9a826;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background: rgba(0, 0, 0, 0.8);
-      text-align: center;
-      padding: 30px;
-      font-size: 1rem;
-      margin-top: 80px;
-    }
-
-    /* === Funkeneffekt === */
-    .spark {
+    .hero-overlay {
       position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #f9a826;
-      border-radius: 50%;
-      pointer-events: none;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 50% 40%, rgba(16,33,55,0.0) 0%, rgba(16,33,55,0.7) 100%),
+        linear-gradient(to top, rgba(16,33,55,1) 0%, rgba(16,33,55,0.1) 50%, rgba(16,33,55,0.5) 100%);
+      z-index: 1;
     }
 
-    /* === Animationen beim Scrollen === */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 860px;
+    }
+
+    /* Big logo in hero */
+    .hero-logo {
+      width: min(420px, 72vw);
+      height: auto;
+      margin-bottom: 40px;
+      filter: drop-shadow(0 0 48px rgba(239,147,36,0.35)) drop-shadow(0 8px 32px rgba(0,0,0,0.6));
+      animation: logoFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+      line-height: 1.08;
+      margin-bottom: 20px;
+      color: var(--cream);
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-dim);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .hero-meta-label {
+      font-size: 0.67rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .hero-meta-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--cream);
+    }
+
+    /* scroll hint arrow */
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-dim);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+      50%       { transform: translateX(-50%) translateY(6px); opacity: 1; }
+    }
+
+    /* ── SECTIONS GENERIC ────────────────────── */
+    section {
+      padding: 100px 48px;
+    }
+
+    .section-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      margin-bottom: 48px;
+      color: var(--cream);
+    }
+
+    /* ── DIVIDER ─────────────────────────────── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(240,237,225,0.1);
+    }
+
+    /* ── ABOUT ───────────────────────────────── */
+    #about { background: var(--navy); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .about-body {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-dim);
+    }
+
+    .about-body p + p { margin-top: 1em; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .stat-card {
+      background: rgba(240,237,225,0.04);
+      border: 1px solid rgba(240,237,225,0.08);
+      padding: 28px 24px;
+    }
+
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      color: var(--orange);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    /* ── CALENDAR ────────────────────────────── */
+    #calendar { background: rgba(240,237,225,0.03); }
+
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .gcal-wrapper {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(240,237,225,0.1);
+    }
+
+    .gcal-wrapper iframe {
+      display: block;
+      width: 100%;
+      border: none;
+    }
+
+    .upcoming-events { display: flex; flex-direction: column; gap: 2px; }
+
+    .event-card {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: rgba(240,237,225,0.04);
+      border: 1px solid rgba(240,237,225,0.08);
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .event-card:hover { background: rgba(240,237,225,0.08); }
+
+    .event-date {
+      min-width: 44px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .event-day {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--orange);
+    }
+
+    .event-month {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    .event-info { flex: 1; }
+
+    .event-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+
+    .event-meta {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .event-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      margin-top: 6px;
+    }
+
+    .tag-plenum  { background: rgba(239,147,36,0.2);  color: var(--orange); }
+    .tag-social  { background: rgba(172,187,125,0.2); color: var(--sage); }
+    .tag-hopo    { background: rgba(177,29,37,0.2);   color: #e06060; }
+    .tag-learn   { background: rgba(62,84,22,0.3);    color: var(--sage); }
+
+    /* ── INSTAGRAM ───────────────────────────── */
+    #instagram { background: var(--navy); }
+
+    .insta-embed {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(240,237,225,0.1);
+      max-width: 780px;
+    }
+
+    .insta-embed iframe {
+      display: block;
+      width: 100%;
+      border: none;
+    }
+
+    .insta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      color: var(--orange);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .insta-link:hover { color: var(--yellow); }
+
+    /* ── HOCHSCHULPOLITIK ────────────────────── */
+    #hopo { background: rgba(177,29,37,0.06); border-top: 1px solid rgba(177,29,37,0.2); }
+
+    .hopo-intro {
+      max-width: 640px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-dim);
+      margin-bottom: 56px;
+    }
+
+    .hopo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 48px;
+    }
+
+    .hopo-card {
+      background: rgba(240,237,225,0.04);
+      border: 1px solid rgba(240,237,225,0.08);
+      padding: 32px 28px;
+    }
+
+    .hopo-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .hopo-card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+
+    .hopo-card-body {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--text-dim);
+    }
+
+    .hopo-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hopo-link-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      border: 1px solid rgba(240,237,225,0.2);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .hopo-link-btn:hover {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    /* ── PROJECTS ────────────────────────────── */
+    #projects { background: var(--navy); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .project-card {
+      background: rgba(240,237,225,0.04);
+      border: 1px solid rgba(240,237,225,0.08);
+      padding: 36px 28px;
+      transition: background 0.25s;
+    }
+
+    .project-card:hover { background: rgba(240,237,225,0.08); }
+
+    .project-card-accent {
+      width: 28px; height: 3px;
+      margin-bottom: 20px;
+      border-radius: 2px;
+    }
+
+    .project-card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+      color: var(--cream);
+    }
+
+    .project-card-body {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--text-dim);
+    }
+
+    /* ── CONTACT ─────────────────────────────── */
+    #contact {
+      background: var(--navy);
+      border-top: 1px solid rgba(240,237,225,0.08);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .contact-icon {
+      width: 32px; height: 32px;
+      background: rgba(239,147,36,0.15);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .contact-text { font-size: 0.9rem; color: var(--cream); line-height: 1.5; }
+    .contact-text span { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 2px; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      background: rgba(0,0,0,0.4);
+      border-top: 1px solid rgba(240,237,225,0.08);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--orange); }
+
+    /* ── FADE IN ─────────────────────────────── */
     .fade-in {
       opacity: 0;
-      transform: translateY(50px);
-      transition: all 1s ease;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
     .fade-in.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ── SPARK ───────────────────────────────── */
+    .spark {
+      position: fixed;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── MOBILE ──────────────────────────────── */
+    @media (max-width: 768px) {
+      header { padding: 16px 20px; }
+      nav { gap: 16px; }
+      nav a { font-size: 0.75rem; }
+      .nav-cta { display: none; }
+
+      section { padding: 72px 20px; }
+      .hero { padding: 0 20px 60px; }
+
+      .about-grid,
+      .calendar-layout,
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+
+      .hopo-grid,
+      .projects-grid { grid-template-columns: 1fr; }
+
+      footer { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- === Header === -->
+  <!-- ══ HEADER ══ -->
   <header>
-    <a href="#start">
-      <img src="blublogo.jpg.JPG" alt="BLuB Logo">
+    <a href="#start" style="display:flex; align-items:center;">
+      <img src="BLuB_Flasche_und_Kolben_01_Zeichenfläche_1.svg" alt="BLuB" style="height:42px; width:auto; filter: drop-shadow(0 0 6px rgba(239,147,36,0.3));">
     </a>
     <nav>
-      <a href="#start">Start</a>
       <a href="#about">Über uns</a>
-      <a href="#projects">Projekte</a>
+      <a href="#calendar">Kalender</a>
+      <a href="#hopo">Hochschulpolitik</a>
+      <a href="#instagram">Instagram</a>
       <a href="#contact">Kontakt</a>
+      <a href="mailto:blub.tuberlin@gmail.com" class="nav-cta">Mitmachen</a>
     </nav>
   </header>
 
-  <!-- === Hero mit Video === -->
+  <!-- ══ HERO ══ -->
   <section id="start" class="hero">
     <video autoplay muted loop playsinline id="bg-video" poster="hintergrundblub.JPG">
       <source src="komprimiert-2.MP4" type="video/mp4">
     </video>
-    <div class="overlay">
-      <h1>Willkommen bei der BLuB</h1>
-      <h2>Studierendeninitiative der TU Berlin</h2>
-      <p>Plenum jeden 1. Dienstag im Monat – 18 Uhr · Café Erdreich</p>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <!-- SVG Logo groß eingebettet -->
+      <img
+        src="blublogo.svg"
+        alt="BLuB Logo"
+        class="hero-logo"
+      >
+
+      <p class="hero-eyebrow">Studierendeninitiative · TU Berlin</p>
+      <h1 class="hero-title">
+        Zusammen <em>wachsen,</em><br>gemeinsam wirken.
+      </h1>
+      <p class="hero-sub">
+        BLuB verbindet Studierende der Biotechnologie, Lebensmitteltechnologie
+        und Brauerei- & Getränketechnologie – und alle, die dazugehören wollen.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Plenum</span>
+          <span class="hero-meta-value">1. Dienstag im Monat · 18 Uhr</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Ort</span>
+          <span class="hero-meta-value">Café Erdreich · Z-002</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Kontakt</span>
+          <span class="hero-meta-value">blub.tuberlin@gmail.com</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll-Hint -->
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
   </section>
 
-  <!-- === Über uns === -->
-  <section id="about" class="fade-in">
-    <h2>Über uns</h2>
-    <p>Wir sind die Studierendeninitiative der Studiengänge Biotechnologie, Lebensmitteltechnologie, Brauerei- und Getränketechnologie. Wir fördern Austausch, Spaß und gute Getränke!</p>
+  <div class="divider"></div>
+
+  <!-- ══ ÜBER UNS ══ -->
+  <section id="about">
+    <div class="section-inner fade-in">
+      <span class="section-label">Über uns</span>
+      <h2 class="section-title">Mehr als nur eine Initiative.</h2>
+      <div class="about-grid">
+        <div class="about-body">
+          <p>
+            BLuB ist die Studierendeninitiative der Studiengänge Biotechnologie,
+            Lebensmitteltechnologie sowie Brauerei- und Getränketechnologie an der
+            Technischen Universität Berlin. Wir sind offen für alle Studierenden,
+            die Lust haben, Teil einer aktiven Gemeinschaft zu sein.
+          </p>
+          <p>
+            Unsere Ziele: Vernetzung fördern, Studierende in der Hochschulpolitik
+            stärken, gemeinsam feiern und voneinander lernen. Bei uns gibt es kein
+            Minimum an Engagement – komm einfach vorbei.
+          </p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Studiengänge</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">1×</span>
+            <span class="stat-label">Plenum pro Monat</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">∞</span>
+            <span class="stat-label">Gute Getränke</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">TUB</span>
+            <span class="stat-label">Seit Jahren aktiv</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- === Projekte === -->
-  <section id="projects" class="fade-in">
-    <h2>Projekte</h2>
-    <p>Zusammen lernen, Billard & Kicker spielen oder die besten Partys auf dem Campus  – komm vorbei. Bei uns ist immer was los!</p>
+  <div class="divider"></div>
+
+  <!-- ══ KALENDER ══ -->
+  <section id="calendar">
+    <div class="section-inner fade-in">
+      <span class="section-label">Veranstaltungen</span>
+      <h2 class="section-title">Was steht an?</h2>
+      <div class="calendar-layout">
+        <div class="gcal-wrapper">
+          <!-- Ersetze SRC mit deiner Google Calendar Einbettungs-URL -->
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=blub.tuberlin%40gmail.com&ctz=Europe%2FBerlin&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&mode=MONTH&bgcolor=%23102137&color=%23EF9324"
+            style="background: #102137;"
+            height="520"
+            frameborder="0"
+            scrolling="no">
+          </iframe>
+        </div>
+
+        <!-- Beispiel-Termine (manuell anpassen) -->
+        <div>
+          <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--text-dim); margin-bottom:16px;">Nächste Termine</p>
+          <div class="upcoming-events">
+
+            <div class="event-card">
+              <div class="event-date">
+                <span class="event-day">06</span>
+                <span class="event-month">Mai</span>
+              </div>
+              <div class="event-info">
+                <p class="event-title">Plenum BLuB</p>
+                <p class="event-meta">18:00 Uhr · Café Erdreich Z-002</p>
+                <span class="event-tag tag-plenum">Plenum</span>
+              </div>
+            </div>
+
+            <div class="event-card">
+              <div class="event-date">
+                <span class="event-day">14</span>
+                <span class="event-month">Mai</span>
+              </div>
+              <div class="event-info">
+                <p class="event-title">Lerngruppe Prüfungsphase</p>
+                <p class="event-meta">14:00 Uhr · Bibliothek TUB</p>
+                <span class="event-tag tag-learn">Lernen</span>
+              </div>
+            </div>
+
+            <div class="event-card">
+              <div class="event-date">
+                <span class="event-day">22</span>
+                <span class="event-month">Mai</span>
+              </div>
+              <div class="event-info">
+                <p class="event-title">StuPa-Sitzung begleiten</p>
+                <p class="event-meta">16:00 Uhr · TU Berlin, Hauptgebäude</p>
+                <span class="event-tag tag-hopo">HoPo</span>
+              </div>
+            </div>
+
+            <div class="event-card">
+              <div class="event-date">
+                <span class="event-day">30</span>
+                <span class="event-month">Mai</span>
+              </div>
+              <div class="event-info">
+                <p class="event-title">Grillabend & Billard</p>
+                <p class="event-meta">17:00 Uhr · Innenhof EB-Gebäude</p>
+                <span class="event-tag tag-social">Social</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- === Instagram === -->
-  <section id="instagram" class="fade-in">
-    <h2>Instagram</h2>
-    <iframe 
-      src="https://snapwidget.com/embed/1107269"
-      allowtransparency="true"
-      frameborder="0"
-      scrolling="no"
-      style="border:none; overflow:hidden; width:100%; max-width:765px; height:690px; margin:0 auto; display:block;"
-      title="Posts from Instagram">
-    </iframe>
-    <p style="margin-top:15px;">
-      <a href="https://instagram.com/blub_tub" target="_blank" style="color:#f9a826; font-weight:bold;">
-        ➡️ Folge uns auf Instagram
+  <div class="divider"></div>
+
+  <!-- ══ HOCHSCHULPOLITIK ══ -->
+  <section id="hopo">
+    <div class="section-inner fade-in">
+      <span class="section-label">Hochschulpolitik</span>
+      <h2 class="section-title">Deine Uni. Deine Stimme.</h2>
+      <p class="hopo-intro">
+        Hochschulpolitik klingt abstrakt – ist es aber nicht. Sie entscheidet darüber,
+        wie dein Studium aussieht: Welche Prüfungsordnungen gelten, wie Ressourcen
+        verteilt werden, ob eure Meinungen gehört werden. BLuB engagiert sich, damit
+        Studierende der Life-Science-Fachbereiche eine starke Stimme haben.
+      </p>
+      <div class="hopo-grid">
+        <div class="hopo-card">
+          <span class="hopo-card-icon">🏛️</span>
+          <h3 class="hopo-card-title">Was ist das StuPa?</h3>
+          <p class="hopo-card-body">
+            Das Studierendenparlament (StuPa) ist das höchste beschlussfassende Gremium
+            der Studierendenschaft an der TU Berlin. Es wählt den AStA, beschließt den
+            Haushalt und vertritt die Interessen aller Studierenden gegenüber der
+            Universitätsleitung. Jede:r Studierende kann kandidieren und abstimmen.
+          </p>
+        </div>
+        <div class="hopo-card">
+          <span class="hopo-card-icon">⚙️</span>
+          <h3 class="hopo-card-title">Was macht der AStA?</h3>
+          <p class="hopo-card-body">
+            Der Allgemeine Studierendenausschuss (AStA) ist die Exekutive der
+            Studierendenschaft. Er bietet Beratung (BAföG, Recht, Soziales), organisiert
+            Veranstaltungen und setzt politische Beschlüsse des StuPa um. Der AStA ist
+            dein direkter Ansprechpartner für Probleme im Studienalltag.
+          </p>
+        </div>
+        <div class="hopo-card">
+          <span class="hopo-card-icon">🔬</span>
+          <h3 class="hopo-card-title">Fachbereichsräte</h3>
+          <p class="hopo-card-body">
+            In jedem Fachbereich gibt es einen Fachbereichsrat (FBR), der über Lehre,
+            Studienordnungen und Personalentscheidungen mitentscheidet. Studentische
+            Vertreter:innen im FBR haben echten Einfluss – und BLuB unterstützt euch,
+            diese Positionen aktiv zu besetzen und zu nutzen.
+          </p>
+        </div>
+      </div>
+      <div class="hopo-links">
+        <a href="https://www.asta.tu-berlin.de/" target="_blank" class="hopo-link-btn">→ AStA TU Berlin</a>
+        <a href="https://www.stupa.tu-berlin.de/" target="_blank" class="hopo-link-btn">→ StuPa TU Berlin</a>
+        <a href="mailto:blub.tuberlin@gmail.com" class="hopo-link-btn">→ BLuB kontaktieren</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══ PROJEKTE ══ -->
+  <section id="projects">
+    <div class="section-inner fade-in">
+      <span class="section-label">Projekte & Aktivitäten</span>
+      <h2 class="section-title">Bei uns ist immer was los.</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-card-accent" style="background:var(--orange);"></div>
+          <h3 class="project-card-title">Gemeinsam lernen</h3>
+          <p class="project-card-body">Lerngruppen, Altklausuren, Zusammenfassungen teilen – vor allem in der Prüfungsphase stehen wir füreinander ein. Niemand bereitet sich alleine vor.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-card-accent" style="background:var(--sage);"></div>
+          <h3 class="project-card-title">Billard & Kicker</h3>
+          <p class="project-card-body">Entspannung nach der Vorlesung im Café Erdreich. Komm einfach vorbei – eine Anmeldung brauchst du nicht.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-card-accent" style="background:var(--yellow);"></div>
+          <h3 class="project-card-title">Partys & Events</h3>
+          <p class="project-card-body">Von Semesterauftakt bis Sommergrillabend – wir veranstalten Events, bei denen Menschen aus allen Fachbereichen zusammenkommen.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-card-accent" style="background:var(--red);"></div>
+          <h3 class="project-card-title">Hochschulpolitik</h3>
+          <p class="project-card-body">Wir begleiten StuPa-Sitzungen, informieren über Beschlüsse und unterstützen euch dabei, aktiv an der Gestaltung eures Studiums teilzunehmen.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-card-accent" style="background:var(--green);"></div>
+          <h3 class="project-card-title">Brauerei-Exkursionen</h3>
+          <p class="project-card-body">Als Initiative der Brauerei- und Getränketechnologie organisieren wir Betriebsbesichtigungen und Verkostungen – mit echtem Fachbezug.</p>
+        </div>
+        <div class="project-card">
+          <div class="project-card-accent" style="background:var(--orange);"></div>
+          <h3 class="project-card-title">Plenum & Vernetzung</h3>
+          <p class="project-card-body">Jeden ersten Dienstag im Monat treffen wir uns. Alle dürfen reden, abstimmen und Ideen einbringen. Demokratisch, offen, auf Augenhöhe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══ INSTAGRAM ══ -->
+  <section id="instagram">
+    <div class="section-inner fade-in">
+      <span class="section-label">Social Media</span>
+      <h2 class="section-title">Folge uns auf Instagram.</h2>
+      <div class="insta-embed">
+        <iframe
+          src="https://snapwidget.com/embed/1107269"
+          allowtransparency="true"
+          frameborder="0"
+          scrolling="no"
+          style="width:100%; max-width:765px; height:690px; display:block;"
+          title="Posts from Instagram">
+        </iframe>
+      </div>
+      <a href="https://instagram.com/blub_tub" target="_blank" class="insta-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @blub_tub auf Instagram
       </a>
-    </p>
+    </div>
   </section>
 
-  <!-- === Kontakt === -->
-  <section id="contact" class="fade-in">
-    <h2>Kontakt</h2>
-    <p>Café Erdreich, Gebäude Z-002</p>
-    <p>blub.tuberlin@gmail.com</p>
+  <div class="divider"></div>
+
+  <!-- ══ KONTAKT ══ -->
+  <section id="contact">
+    <div class="section-inner fade-in">
+      <span class="section-label">Kontakt</span>
+      <h2 class="section-title">Komm einfach vorbei.</h2>
+      <div class="contact-grid">
+        <div>
+          <p class="contact-body">
+            Du musst nichts mitbringen außer Neugier. Ob du dich engagieren willst,
+            Fragen zu deinem Studium hast oder einfach nette Leute kennenlernen möchtest –
+            bei BLuB bist du willkommen.
+          </p>
+          <div class="contact-detail">
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div class="contact-text">
+                <span>Adresse</span>
+                Café Erdreich, Gebäude Z-002<br>TU Berlin
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div class="contact-text">
+                <span>E-Mail</span>
+                <a href="mailto:blub.tuberlin@gmail.com" style="color:var(--orange); text-decoration:none;">blub.tuberlin@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📅</div>
+              <div class="contact-text">
+                <span>Plenum</span>
+                Jeden 1. Dienstag im Monat, 18 Uhr
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📸</div>
+              <div class="contact-text">
+                <span>Instagram</span>
+                <a href="https://instagram.com/blub_tub" target="_blank" style="color:var(--orange); text-decoration:none;">@blub_tub</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="background:rgba(239,147,36,0.06); border:1px solid rgba(239,147,36,0.15); padding:36px; border-radius:4px;">
+          <p style="font-family:'DM Serif Display',serif; font-size:1.4rem; margin-bottom:16px;">Mitmachen?</p>
+          <p style="font-size:0.88rem; line-height:1.75; color:var(--text-dim); margin-bottom:24px;">
+            Schreib uns einfach eine Mail oder komm zum nächsten Plenum.
+            Wir freuen uns über jede:n, der Lust hat mitzumachen –
+            egal aus welchem Studiengang.
+          </p>
+          <a href="mailto:blub.tuberlin@gmail.com"
+             style="display:inline-block; background:var(--orange); color:var(--navy); padding:12px 28px; font-weight:600; font-size:0.85rem; text-decoration:none; border-radius:3px; letter-spacing:0.04em;">
+            Jetzt melden →
+          </a>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- === Footer === -->
+  <!-- ══ FOOTER ══ -->
   <footer>
-    © 2010 BLuB – Für Euch von uns mit ❤️
+    <span>© 2025 BLuB – Studierendeninitiative TU Berlin · Für Euch von uns mit ❤️</span>
+    <span>
+      <a href="mailto:blub.tuberlin@gmail.com">Kontakt</a> ·
+      <a href="https://instagram.com/blub_tub" target="_blank">Instagram</a>
+    </span>
   </footer>
 
-  <!-- === JavaScript === -->
+  <!-- ══ JS ══ -->
   <script>
-    // === Funken-Effekt ===
+    // Funken-Effekt
+    const sparkColors = ['#EF9324','#F5E32E','#ACBB7D','#F0EDE1'];
     document.addEventListener('click', (e) => {
-      const sparkCount = 20;
-      const sparkColor = '#f9a826';
-      const sparkSize = 10;
-      const sparkRadius = 50;
-      const duration = 900;
-
-      for (let i = 0; i < sparkCount; i++) {
+      for (let i = 0; i < 16; i++) {
         const spark = document.createElement('div');
         spark.className = 'spark';
-        spark.style.background = sparkColor;
-        spark.style.width = spark.style.height = sparkSize + 'px';
-        spark.style.left = `${e.pageX - sparkSize / 2}px`;
-        spark.style.top = `${e.pageY - sparkSize / 2}px`;
+        spark.style.background = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+        spark.style.left = `${e.clientX - 3}px`;
+        spark.style.top  = `${e.clientY - 3}px`;
         document.body.appendChild(spark);
-
-        const angle = Math.random() * 2 * Math.PI;
-        const distance = Math.random() * sparkRadius * 2;
-        const x = Math.cos(angle) * distance;
-        const y = Math.sin(angle) * distance;
-
-        spark.animate(
-          [
-            { transform: `translate(0, 0)`, opacity: 1 },
-            { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
-          ],
-          { duration, easing: 'ease-out' }
-        );
-
-        setTimeout(() => spark.remove(), duration);
+        const angle    = Math.random() * 2 * Math.PI;
+        const distance = 30 + Math.random() * 60;
+        spark.animate([
+          { transform: 'translate(0,0)', opacity: 1 },
+          { transform: `translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px)`, opacity: 0 }
+        ], { duration: 700, easing: 'ease-out' });
+        setTimeout(() => spark.remove(), 700);
       }
     });
 
-    // === Fade-in Animation beim Scrollen ===
+    // Fade-in beim Scrollen
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { threshold: 0.2 });
-
+    }, { threshold: 0.15 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 
