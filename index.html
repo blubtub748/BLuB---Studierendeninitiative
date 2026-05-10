@@ -651,17 +651,17 @@
   <!-- CAMPUS-KARTE -->
   <section id="campus" style="background:rgba(240,237,225,0.02); border-top:1px solid rgba(240,237,225,0.07);">
     <div class="section-inner fade-in">
-      <span class="section-label">Campus-Leben</span>
-      <h2 class="section-title">Initiativen & Räume an der TU.</h2>
+      <span class="section-label">Dein Campus</span>
+      <h2 class="section-title">Initiativen & Räume an der TU</h2>
       <p style="font-size:0.95rem; line-height:1.8; color:var(--text-dim); max-width:580px; margin-bottom:36px;">
-        An der TU Berlin gibt es über 20 Studierendeninitiativen mit eigenen Räumen, Cafés und Treffpunkten. Klicke auf einen Punkt um mehr zu erfahren.
+        An der TU Berlin gibt es über 20 Studierendeninitiativen mit eigenen Räumen & Cafés. Klicke auf einen Punkt um mehr zu erfahren.
       </p>
 
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
         <button onclick="filterMarkers('all')" class="map-filter-btn active-filter" id="f-all">Alle</button>
         <button onclick="filterMarkers('cafe')" class="map-filter-btn" id="f-cafe">☕ Cafés</button>
         <button onclick="filterMarkers('ini')" class="map-filter-btn" id="f-ini">🔬 Initiativen</button>
-        <button onclick="filterMarkers('service')" class="map-filter-btn" id="f-service">🛠 Service</button>
+        <button onclick="filterMarkers('service')" class="map-filter-btn" id="f-service">🛠 Sonstiges</button>
         <button onclick="filterMarkers('closed')" class="map-filter-btn" id="f-closed">🕯 Geschlossen</button>
       </div>
 
@@ -717,7 +717,7 @@
             <text x="206" y="84" fill="rgba(240,237,225,0.42)" font-size="8" font-family="DM Sans,sans-serif">FH</text>
             <!-- A-Gebäude -->
             <rect x="30" y="290" width="58" height="52" fill="rgba(177,29,37,0.06)" stroke="rgba(177,29,37,0.2)" stroke-width="1" rx="2"/>
-            <text x="40" y="320" fill="rgba(177,29,37,0.6)" font-size="8" font-family="DM Sans,sans-serif">A (Café A)</text>
+            <text x="40" y="320" fill="rgba(177,29,37,0.6)" font-size="8" font-family="DM Sans,sans-serif">Café A</text>
             <!-- Kompass -->
             <text x="758" y="32" fill="rgba(240,237,225,0.45)" font-size="12" font-family="DM Sans,sans-serif" font-weight="700">N ↑</text>
           </svg>
@@ -736,19 +736,19 @@
 
         <div style="padding:10px 16px;border-top:1px solid rgba(240,237,225,0.08);display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
           <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-dim);">
-            <span style="width:9px;height:9px;border-radius:50%;background:var(--orange);display:inline-block;"></span> Café / Treffpunkt
+            <span style="width:9px;height:9px;border-radius:50%;background:var(--orange);display:inline-block;"></span> Cafés & Räume
           </span>
           <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-dim);">
             <span style="width:9px;height:9px;border-radius:50%;background:var(--sage);display:inline-block;"></span> Initiative
           </span>
           <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-dim);">
-            <span style="width:9px;height:9px;border-radius:50%;background:#a5aaff;display:inline-block;"></span> Service
+            <span style="width:9px;height:9px;border-radius:50%;background:#a5aaff;display:inline-block;"></span> Sonstiges
           </span>
           <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.7rem;color:rgba(177,29,37,0.85);">
-            <span style="width:9px;height:9px;border-radius:50%;background:#B11D25;display:inline-block;border:2px solid rgba(177,29,37,0.5);"></span> Geschlossen – kämpf dafür!
+            <span style="width:9px;height:9px;border-radius:50%;background:#B11D25;display:inline-block;border:2px solid rgba(177,29,37,0.5);"></span> Derzeit geschlossen
           </span>
           <span style="margin-left:auto;font-size:0.67rem;color:var(--text-dim);">Kein Anspruch auf Vollständigkeit ·
-            <a href="https://asta.tu-berlin.de/inis-cafes/" target="_blank" style="color:var(--orange);text-decoration:none;">alle Initiativen →</a>
+            <a href="https://asta.tu-berlin.de/inis-cafes/" target="_blank" style="color:var(--orange);text-decoration:none;">Quelle: Asta →</a>
           </span>
         </div>
       </div>
