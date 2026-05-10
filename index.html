@@ -34,7 +34,53 @@
       padding:16px 48px; background:transparent; transition:background 0.4s, backdrop-filter 0.4s;
     }
     header.scrolled { background:rgba(16,33,55,0.92); backdrop-filter:blur(14px); }
-    .logo-img { height:112px; width:auto; display:block; }
+
+    /* HAMBURGER */
+    .hamburger {
+      position:relative;
+      display:flex; flex-direction:column; justify-content:center;
+      gap:5px; width:36px; height:36px; cursor:pointer; padding:4px;
+      flex-shrink:0;
+    }
+    .hamburger span {
+      display:block; width:24px; height:2px;
+      background:var(--cream); border-radius:2px;
+      transition:background 0.2s;
+    }
+    .hamburger:hover span { background:var(--orange); }
+
+    /* Flyout nav */
+    .hamburger-menu {
+      position:absolute; top:0; left:0;
+      background:rgba(16,33,55,0.97); backdrop-filter:blur(16px);
+      border-right:1px solid rgba(240,237,225,0.1);
+      width:260px; height:100vh;
+      display:flex; flex-direction:column;
+      padding:80px 40px 40px;
+      gap:6px;
+      transform:translateX(-100%);
+      transition:transform 0.3s ease;
+      z-index:490;
+    }
+    .hamburger:hover .hamburger-menu,
+    .hamburger-menu:hover { transform:translateX(0); }
+
+    .hamburger-menu a {
+      color:var(--cream); text-decoration:none;
+      font-size:1.1rem; font-weight:500;
+      padding:10px 0; border-bottom:1px solid rgba(240,237,225,0.06);
+      letter-spacing:0.04em; opacity:0.8;
+      transition:color 0.2s, opacity 0.2s;
+    }
+    .hamburger-menu a:hover { color:var(--orange); opacity:1; }
+    .hamburger-menu a.menu-cta {
+      margin-top:16px; background:var(--orange); color:var(--navy);
+      text-align:center; padding:12px; border-radius:3px;
+      font-weight:700; opacity:1; border:none; font-size:0.88rem;
+      letter-spacing:0.06em; text-transform:uppercase;
+    }
+    .hamburger-menu a.menu-cta:hover { background:var(--yellow); }
+
     nav { display:flex; gap:28px; align-items:center; }
     nav a { color:var(--cream); text-decoration:none; font-size:0.78rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; opacity:0.7; transition:opacity 0.2s,color 0.2s; }
     nav a:hover { opacity:1; color:var(--orange); }
@@ -234,17 +280,19 @@
 
   <!-- HEADER -->
   <header id="mainHeader">
-    <a href="#start">
-      <img src="logo-quer.svg" alt="BLuB" class="logo-img">
-    </a>
-    <nav>
-      <a href="#about">Über uns</a>
-      <a href="#calendar">Kalender</a>
-      <a href="#instagram">Instagram</a>
-      <a href="#hopo">Hochschulpolitik</a>
-      <a href="#contact">Kontakt</a>
-      <a href="mailto:blub.tuberlin@gmail.com" class="nav-cta">Mitmachen</a>
-    </nav>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+      <nav class="hamburger-menu">
+        <a href="#about">Über uns</a>
+        <a href="#calendar">Kalender</a>
+        <a href="#instagram">Instagram</a>
+        <a href="#hopo">Hochschulpolitik</a>
+        <a href="#campus">Campus</a>
+        <a href="#contact">Kontakt</a>
+        <a href="mailto:blub.tuberlin@gmail.com" class="menu-cta">Mitmachen →</a>
+      </nav>
+    </div>
+    <a href="mailto:blub.tuberlin@gmail.com" class="nav-cta">Mitmachen</a>
   </header>
 
   <!-- HERO -->
@@ -410,110 +458,205 @@
     <div class="section-inner fade-in">
       <span class="section-label">Hochschulpolitik</span>
       <h2 class="section-title">Deine Uni. Deine Stimme.</h2>
+
       <!-- Legende -->
-      <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; align-items:center;">
-        <span style="font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim);">Studierende können mitwirken in:</span>
+      <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:36px; align-items:center;">
+        <span style="font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim);">Hover über ein Organ für mehr Infos</span>
         <span style="display:inline-flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--orange); font-weight:600;">
-          <span style="width:10px;height:10px;border-radius:2px;background:var(--orange);display:inline-block;"></span> Zentralen Gremien
+          <span style="width:10px;height:10px;border-radius:2px;background:rgba(239,147,36,0.3);border:1px solid var(--orange);display:inline-block;"></span> Studentische Selbstverwaltung
         </span>
         <span style="display:inline-flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--sage); font-weight:600;">
-          <span style="width:10px;height:10px;border-radius:2px;background:var(--sage);display:inline-block;"></span> Fakultätsgremien
+          <span style="width:10px;height:10px;border-radius:2px;background:rgba(172,187,125,0.2);border:1px solid var(--sage);display:inline-block;"></span> Akademische Selbstverwaltung
         </span>
       </div>
 
-      <div class="org-chart">
-        <div class="org-tree">
+      <!-- SVG Organigramm -->
+      <div class="org-chart" style="margin-bottom:36px;">
+        <svg id="hopoSVG" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg"
+             style="width:100%; min-width:700px; display:block; overflow:visible;">
 
-          <!-- Ebene 1: Verwaltung + Präsidium nebeneinander -->
-          <div class="org-level">
-            <div class="org-node"
-              data-title="Zentrale Universitätsverwaltung"
-              data-body="Sechs Abteilungen für Studienservice, Personal, Finanzen, Gebäude, Forschung und Internationales – der operative Apparat der TU Berlin.">
-              <div class="org-node-title">Zentrale Verwaltung</div>
-              <div class="org-node-sub">Abt. I–VI</div>
-            </div>
-            <div class="org-node"
-              data-title="Präsident*in und Präsidium"
-              data-body="Leitet die TU Berlin strategisch. Das Präsidium wird vom Erweiterten Akademischen Senat gewählt und verantwortet alle zentralen Entscheidungen.">
-              <div class="org-node-title">Präsident*in & Präsidium</div>
-              <div class="org-node-sub">Prof. Dr. Fatma Deniz</div>
-            </div>
-            <div class="org-node"
-              data-title="Fakultätsverwaltung"
-              data-body="Jede der 7 Fakultäten hat eine eigene Verwaltung. BLuB gehört zur Fakultät III Prozesswissenschaften.">
-              <div class="org-node-title">Fakultätsverwaltung</div>
-              <div class="org-node-sub">7 Fakultäten · Fak. III für uns</div>
-            </div>
-          </div>
+          <!-- Hintergrund-Bereiche -->
+          <rect x="0" y="0" width="260" height="560" rx="4" fill="rgba(239,147,36,0.04)" stroke="rgba(239,147,36,0.15)" stroke-width="1"/>
+          <rect x="270" y="0" width="630" height="560" rx="4" fill="rgba(172,187,125,0.03)" stroke="rgba(172,187,125,0.12)" stroke-width="1"/>
 
-          <div class="org-connector" style="height:22px;"></div>
+          <!-- Bereichs-Titel -->
+          <text x="130" y="24" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="11" font-family="DM Sans,sans-serif" font-weight="600" letter-spacing="1">STUDENTISCHE SELBSTVERWALTUNG</text>
+          <text x="585" y="24" text-anchor="middle" fill="rgba(172,187,125,0.7)" font-size="11" font-family="DM Sans,sans-serif" font-weight="600" letter-spacing="1">AKADEMISCHE SELBSTVERWALTUNG</text>
 
-          <!-- Ebene 2: Kuratorium / eAS+AS / Dekan+FakRat -->
-          <div class="org-level">
-            <div class="org-node"
-              data-title="Kuratorium (KU)"
-              data-body="Externes Aufsichtsgremium mit 1 Studierendensitz. Kontrolliert das Präsidium und berät zu strategischen Fragen.">
-              <div class="org-node-title">Kuratorium</div>
-              <div class="org-node-sub">1 Studierendensitz</div>
-            </div>
-            <div class="org-node" style="border-color:rgba(239,147,36,0.5); background:rgba(239,147,36,0.07);"
-              data-title="Erweiterter Akademischer Senat (eAS) & Akademischer Senat (AS)"
-              data-body="Der eAS (10 Studierendensitze) wählt das Präsidium. Der AS (4 Studierendensitze) ist das höchste Beschlussgremium der TU Berlin und entscheidet über Satzungen und Studienordnungen. Beide werden alle 2 Jahre von Studierenden gewählt.">
-              <div class="org-node-title">eAS & AS</div>
-              <div class="org-node-sub" style="color:var(--orange);">10 + 4 Studierendensitze</div>
-            </div>
-            <div class="org-node" style="border-color:rgba(172,187,125,0.5); background:rgba(172,187,125,0.07);"
-              data-title="Dekan*in & Fakultätsrat (FakRat)"
-              data-body="Der Fakultätsrat (2 Studierendensitze) entscheidet über Prüfungsordnungen, Lehrpläne und Personalentscheidungen in der Fakultät. Direkter Einfluss auf euer Studium!">
-              <div class="org-node-title">Dekan*in & FakRat</div>
-              <div class="org-node-sub" style="color:var(--sage);">2 Studierendensitze</div>
-            </div>
-          </div>
+          <!-- ─────── VERBINDUNGSLINIEN ─────── -->
+          <!-- Studierende → StuPa (wählen jedes Jahr) -->
+          <line x1="130" y1="520" x2="130" y2="440" stroke="rgba(239,147,36,0.4)" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+          <text x="136" y="488" fill="rgba(239,147,36,0.6)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählen jedes Jahr</text>
 
-          <div class="org-connector" style="height:22px;"></div>
+          <!-- Studierende → eAS/AS (wählen alle 2 Jahre) -->
+          <line x1="480" y1="520" x2="480" y2="340" stroke="rgba(172,187,125,0.35)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-sage)"/>
+          <text x="486" y="440" fill="rgba(172,187,125,0.55)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählen alle 2 Jahre</text>
 
-          <!-- Ebene 3: StuPa / AStA / InstRat -->
-          <div class="org-level">
-            <div class="org-node" style="border-color:rgba(239,147,36,0.5); background:rgba(239,147,36,0.07);"
-              data-title="Studierendenparlament (StuPa)"
-              data-body="60 Sitze, alle Studierenden können wählen und kandidieren. Das StuPa wählt den AStA, beschließt den Haushalt der Studierendenschaft und ist das wichtigste studentische Gremium. Wahl jedes Wintersemester.">
-              <div class="org-node-title">StuPa</div>
-              <div class="org-node-sub" style="color:var(--orange);">60 Sitze – alle Studis wählen</div>
-            </div>
-            <div class="org-node" style="border-color:rgba(239,147,36,0.5); background:rgba(239,147,36,0.07);"
-              data-title="AStA – Allgemeiner Studierendenausschuss"
-              data-body="Vom StuPa gewählt, ist der AStA die Exekutive der Studierendenschaft. Bietet Beratung, organisiert Events und setzt Beschlüsse um. Du kannst dich hier direkt engagieren!">
-              <div class="org-node-title">AStA</div>
-              <div class="org-node-sub" style="color:var(--orange);">Vom StuPa gewählt</div>
-            </div>
-            <div class="org-node" style="border-color:rgba(172,187,125,0.5); background:rgba(172,187,125,0.07);"
-              data-title="Institutsrat (InstRat)"
-              data-body="Auf Institutsebene gibt es ebenfalls Räte mit 2 Studierendensitzen. Fak. V hat 7 Institute, Fak. III hat 6 Institute.">
-              <div class="org-node-title">Institutsrat</div>
-              <div class="org-node-sub" style="color:var(--sage);">2 Studierendensitze</div>
-            </div>
-          </div>
+          <!-- StuPa → AStA (wählt) -->
+          <line x1="130" y1="340" x2="130" y2="250" stroke="rgba(239,147,36,0.4)" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+          <text x="136" y="300" fill="rgba(239,147,36,0.6)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählt jedes Jahr</text>
 
-          <div class="org-connector" style="height:22px;"></div>
+          <!-- eAS → Präsidium (wählt alle 4J) -->
+          <line x1="530" y1="260" x2="630" y2="200" stroke="rgba(172,187,125,0.4)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
+          <text x="548" y="238" fill="rgba(172,187,125,0.55)" font-size="8.5" font-family="DM Sans,sans-serif" font-style="italic">wählt P alle 4J, VP alle 2J</text>
 
-          <!-- Ebene 4: BLuB + alle Studis -->
-          <div class="org-level">
-            <div class="org-node blub-node"
-              style="border-color:var(--orange); background:rgba(239,147,36,0.12);"
-              data-title="BLuB – Fachschaftsrat"
-              data-body="BLuB ist euer Fachschaftsrat für Biotechnologie, Lebensmitteltechnologie und Brauerei- & Getränketechnologie. Komm zum Plenum und gestalte mit!">
-              <div class="org-node-title" style="color:var(--orange);">BLuB</div>
-              <div class="org-node-sub">Fachschaftsrat · Das sind wir!</div>
-            </div>
-            <div class="org-node" style="background:rgba(172,187,125,0.05); border-color:rgba(172,187,125,0.3);"
-              data-title="Alle TU-Studierenden"
-              data-body="Du wählst alle 2 Jahre den AS, eAS, FakRat und InstRat. Jedes Wintersemester wählst du das StuPa. Kandidieren kannst du überall!">
-              <div class="org-node-title" style="color:var(--sage);">Alle Studierenden</div>
-              <div class="org-node-sub">Du wählst – du kannst kandidieren</div>
-            </div>
-          </div>
+          <!-- Kuratorium → Kanzler*in (wählt) -->
+          <line x1="410" y1="130" x2="730" y2="130" stroke="rgba(172,187,125,0.4)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
+          <text x="520" y="122" fill="rgba(172,187,125,0.55)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählt</text>
 
-        </div>
+          <!-- Kuratorium kontrolliert Präsidium -->
+          <line x1="410" y1="145" x2="620" y2="175" stroke="rgba(172,187,125,0.3)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-sage-sm)"/>
+          <text x="470" y="168" fill="rgba(172,187,125,0.45)" font-size="8" font-family="DM Sans,sans-serif" font-style="italic">kontrolliert</text>
+
+          <!-- AS wählt externe KU-Mitglieder -->
+          <path d="M 480 260 Q 380 200 400 145" fill="none" stroke="rgba(172,187,125,0.3)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-sage-sm)"/>
+          <text x="390" y="200" fill="rgba(172,187,125,0.45)" font-size="8" font-family="DM Sans,sans-serif" font-style="italic">AS wählt ext. Mitgl.</text>
+
+          <!-- FakRat → Dekan (wählt) -->
+          <line x1="680" y1="370" x2="790" y2="370" stroke="rgba(172,187,125,0.35)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
+          <text x="700" y="362" fill="rgba(172,187,125,0.55)" font-size="8.5" font-family="DM Sans,sans-serif" font-style="italic">wählt</text>
+
+          <!-- InstRat → GD (wählt) -->
+          <line x1="680" y1="460" x2="790" y2="460" stroke="rgba(172,187,125,0.35)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
+          <text x="700" y="452" fill="rgba(172,187,125,0.55)" font-size="8.5" font-family="DM Sans,sans-serif" font-style="italic">wählt</text>
+
+          <!-- ─────── PFEILSPITZEN DEFINITIONEN ─────── -->
+          <defs>
+            <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="rgba(239,147,36,0.6)"/>
+            </marker>
+            <marker id="arr-sage" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="rgba(172,187,125,0.55)"/>
+            </marker>
+            <marker id="arr-sage-sm" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
+              <polygon points="0 0, 6 2.5, 0 5" fill="rgba(172,187,125,0.4)"/>
+            </marker>
+          </defs>
+
+          <!-- ─────── KNOTEN ─────── -->
+
+          <!-- AStA -->
+          <g class="hopo-svg-node" data-title="AStA – Allgemeiner Studierendenausschuss"
+             data-body="Exekutive der Studierendenschaft mit mind. 10 Referaten. Wird jährlich vom StuPa gewählt. Bietet Beratung zu BAföG, Recht und sozialen Fragen und setzt Beschlüsse um."
+             data-link="https://www.asta.tu-berlin.de/" style="cursor:pointer;">
+            <rect x="20" y="200" width="220" height="70" rx="3" fill="rgba(239,147,36,0.1)" stroke="rgba(239,147,36,0.5)" stroke-width="1.5"/>
+            <text x="130" y="227" text-anchor="middle" fill="#F0EDE1" font-size="13" font-family="DM Serif Display,serif" font-weight="600">AStA</text>
+            <text x="130" y="244" text-anchor="middle" fill="rgba(240,237,225,0.6)" font-size="9" font-family="DM Sans,sans-serif">Allgemeiner Studierendenausschuss</text>
+            <text x="130" y="258" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="8.5" font-family="DM Sans,sans-serif">mind. 10 Referate</text>
+          </g>
+
+          <!-- StuPa -->
+          <g class="hopo-svg-node" data-title="Studierendenparlament (StuPa)"
+             data-body="60 Sitze. Höchstes Gremium der Studierendenschaft. Wählt den AStA, beschließt den Haushalt. Alle Studierenden wählen jedes Jahr. Kandidieren kann jede:r!"
+             data-link="https://www.tu.berlin/studierendenschaft/stupa" style="cursor:pointer;">
+            <rect x="20" y="290" width="220" height="80" rx="3" fill="rgba(239,147,36,0.08)" stroke="rgba(239,147,36,0.4)" stroke-width="1.5"/>
+            <text x="130" y="318" text-anchor="middle" fill="#F0EDE1" font-size="13" font-family="DM Serif Display,serif">StuPa</text>
+            <text x="130" y="334" text-anchor="middle" fill="rgba(240,237,225,0.6)" font-size="9" font-family="DM Sans,sans-serif">Studierendenparlament</text>
+            <text x="130" y="349" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="8.5" font-family="DM Sans,sans-serif">60 Mitglieder · St: 60</text>
+          </g>
+
+          <!-- Kuratorium -->
+          <g class="hopo-svg-node" data-title="Kuratorium (KU)"
+             data-body="Kontrolliert das Präsidium und wählt den Kanzler / die Kanzlerin. Besteht aus Bildungssenator*in, 6 externen Mitgliedern und 4 TU-Mitgliedern (St:1 / AM:1 / SM:1 / HL:1). Externe Mitglieder werden vom AS gewählt."
+             style="cursor:pointer;">
+            <rect x="290" y="100" width="180" height="75" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.2)" stroke-width="1.5"/>
+            <text x="380" y="124" text-anchor="middle" fill="#F0EDE1" font-size="12" font-family="DM Serif Display,serif">Kuratorium</text>
+            <text x="380" y="140" text-anchor="middle" fill="rgba(240,237,225,0.5)" font-size="8" font-family="DM Sans,sans-serif">Bildungssenator*in + 6 ext. Mitgl.</text>
+            <text x="380" y="153" text-anchor="middle" fill="rgba(172,187,125,0.7)" font-size="8" font-family="DM Sans,sans-serif">St: 1 / AM: 1 / SM: 1 / HL: 1</text>
+          </g>
+
+          <!-- eAS + AS (gestapelt) -->
+          <g class="hopo-svg-node" data-title="Erweiterter Akademischer Senat (eAS) & Akademischer Senat (AS)"
+             data-body="eAS: 10 Studierendensitze – wählt Präsident*in (alle 4J) und Vizepräsident*innen (alle 2J). AS: 4 Studierendensitze – höchstes Beschlussgremium, entscheidet über Satzungen und Studienordnungen. Beide alle 2 Jahre gewählt."
+             style="cursor:pointer;">
+            <rect x="390" y="215" width="195" height="95" rx="3" fill="rgba(239,147,36,0.06)" stroke="rgba(239,147,36,0.35)" stroke-width="1.5"/>
+            <text x="488" y="240" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Erweiterter Akademischer Senat</text>
+            <text x="488" y="254" text-anchor="middle" fill="rgba(239,147,36,0.6)" font-size="8" font-family="DM Sans,sans-serif">St: 10 / AM: 10 / SM: 10 / HL: 31</text>
+            <rect x="405" y="265" width="165" height="35" rx="2" fill="rgba(239,147,36,0.06)" stroke="rgba(239,147,36,0.25)" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="488" y="279" text-anchor="middle" fill="#F0EDE1" font-size="10.5" font-family="DM Serif Display,serif">Akademischer Senat</text>
+            <text x="488" y="293" text-anchor="middle" fill="rgba(239,147,36,0.6)" font-size="8" font-family="DM Sans,sans-serif">St: 4 / AM: 4 / SM: 4 / HL: 13</text>
+          </g>
+
+          <!-- Präsidium -->
+          <g class="hopo-svg-node" data-title="Präsident*in und Vizepräsident*innen"
+             data-body="Leitet die TU Berlin strategisch. Präsident*in wird vom eAS alle 4 Jahre gewählt, Vizepräsident*innen alle 2 Jahre. Verantwortet Forschung, Lehre, Digitalisierung und Nachhaltigkeit."
+             data-link="https://www.tu.berlin/ueber-die-tu-berlin/profil/praesidium" style="cursor:pointer;">
+            <rect x="610" y="155" width="175" height="65" rx="3" fill="rgba(172,187,125,0.06)" stroke="rgba(172,187,125,0.35)" stroke-width="1.5"/>
+            <text x="698" y="180" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Präsident*in /</text>
+            <text x="698" y="195" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Vizepräsident*innen</text>
+            <text x="698" y="210" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="8" font-family="DM Sans,sans-serif">Prof. Dr. Fatma Deniz</text>
+          </g>
+
+          <!-- Kanzler*in + Verwaltung -->
+          <g class="hopo-svg-node" data-title="Kanzler*in & Zentrale Universitätsverwaltung"
+             data-body="Kanzler*in wird vom Kuratorium gewählt. Leitet die zentrale Universitätsverwaltung mit 6 Abteilungen (Studienservice, Personal, Finanzen, Gebäude, Forschung, Internationales)."
+             style="cursor:pointer;">
+            <rect x="730" y="100" width="155" height="50" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.18)" stroke-width="1.5"/>
+            <text x="808" y="122" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Kanzler*in</text>
+            <rect x="730" y="152" width="155" height="36" rx="2" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.12)" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="808" y="168" text-anchor="middle" fill="rgba(240,237,225,0.5)" font-size="8.5" font-family="DM Sans,sans-serif">Zentrale Universitätsverwaltung</text>
+            <text x="808" y="181" text-anchor="middle" fill="rgba(240,237,225,0.35)" font-size="8" font-family="DM Sans,sans-serif">Abteilungen I – VI</text>
+          </g>
+
+          <!-- Fakultätsrat -->
+          <g class="hopo-svg-node" data-title="Fakultätsrat (FakRat)"
+             data-body="Entscheidet über Prüfungsordnungen, Lehrpläne und Personalentscheidungen. 2 Studierendensitze! Alle 2 Jahre gewählt. BLuB gehört zur Fakultät III Prozesswissenschaften."
+             style="cursor:pointer;">
+            <rect x="540" y="340" width="175" height="62" rx="3" fill="rgba(172,187,125,0.07)" stroke="rgba(172,187,125,0.4)" stroke-width="1.5"/>
+            <text x="628" y="363" text-anchor="middle" fill="#F0EDE1" font-size="12" font-family="DM Serif Display,serif">Fakultätsrat</text>
+            <text x="628" y="378" text-anchor="middle" fill="rgba(172,187,125,0.7)" font-size="8.5" font-family="DM Sans,sans-serif">St: 2 / AM: 2 / SM: 2 / HL: 7</text>
+            <text x="628" y="393" text-anchor="middle" fill="rgba(240,237,225,0.4)" font-size="8" font-family="DM Sans,sans-serif">Fak. III für uns</text>
+          </g>
+
+          <!-- Dekan*in + Fakultätsverwaltung -->
+          <g class="hopo-svg-node" data-title="Dekan*in / Prodekan*in & Fakultätsverwaltung"
+             data-body="Wird vom Fakultätsrat gewählt. Leitet die Fakultät und verantwortet Lehre, Forschung und Personal auf Fakultätsebene."
+             style="cursor:pointer;">
+            <rect x="790" y="340" width="100" height="42" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.18)" stroke-width="1.5"/>
+            <text x="840" y="357" text-anchor="middle" fill="#F0EDE1" font-size="9.5" font-family="DM Serif Display,serif">Dekan*in /</text>
+            <text x="840" y="370" text-anchor="middle" fill="#F0EDE1" font-size="9.5" font-family="DM Serif Display,serif">Prodekan*in</text>
+            <rect x="790" y="384" width="100" height="26" rx="2" fill="rgba(240,237,225,0.02)" stroke="rgba(240,237,225,0.1)" stroke-dasharray="3,2" stroke-width="1"/>
+            <text x="840" y="401" text-anchor="middle" fill="rgba(240,237,225,0.4)" font-size="7.5" font-family="DM Sans,sans-serif">Fakultätsverwaltung</text>
+          </g>
+
+          <!-- Institutsrat -->
+          <g class="hopo-svg-node" data-title="Institutsrat (InstRat)"
+             data-body="Entscheidet auf Institutsebene über Forschung und Lehre. Regulär: St:1, für Architektur/Chemie/Mathematik: St:2. Fak. III hat 6 Institute. Alle 2 Jahre gewählt."
+             style="cursor:pointer;">
+            <rect x="540" y="430" width="175" height="65" rx="3" fill="rgba(172,187,125,0.05)" stroke="rgba(172,187,125,0.3)" stroke-width="1.5"/>
+            <text x="628" y="454" text-anchor="middle" fill="#F0EDE1" font-size="12" font-family="DM Serif Display,serif">Institutsrat</text>
+            <text x="628" y="469" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="8" font-family="DM Sans,sans-serif">regulär: St:1 / AM:1 / SM:1 / HL:4</text>
+            <text x="628" y="482" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="8" font-family="DM Sans,sans-serif">Archit./Chem./Math.: St:2 / HL:7</text>
+          </g>
+
+          <!-- Geschäftsführende Direktor*in -->
+          <g class="hopo-svg-node" data-title="Geschäftsführende*r Direktor*in & Institutsverwaltung"
+             data-body="Wird vom Institutsrat gewählt. Leitet das Institut auf operativer Ebene."
+             style="cursor:pointer;">
+            <rect x="790" y="430" width="100" height="40" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.18)" stroke-width="1.5"/>
+            <text x="840" y="448" text-anchor="middle" fill="#F0EDE1" font-size="8.5" font-family="DM Serif Display,serif">Geschäftsführ.</text>
+            <text x="840" y="460" text-anchor="middle" fill="#F0EDE1" font-size="8.5" font-family="DM Serif Display,serif">Direktor*in</text>
+            <rect x="790" y="472" width="100" height="22" rx="2" fill="rgba(240,237,225,0.02)" stroke="rgba(240,237,225,0.1)" stroke-dasharray="3,2" stroke-width="1"/>
+            <text x="840" y="487" text-anchor="middle" fill="rgba(240,237,225,0.4)" font-size="7" font-family="DM Sans,sans-serif">Institutsverwaltung</text>
+          </g>
+
+          <!-- BLuB -->
+          <g class="hopo-svg-node" data-title="BLuB – Fachschaftsrat"
+             data-body="Unser Fachschaftsrat für Biotechnologie, Lebensmitteltechnologie und Brauerei- & Getränketechnologie. Komm zum Plenum – jeden 1. Dienstag im Monat, 18 Uhr, Café Erdreich!"
+             data-link="mailto:blub.tuberlin@gmail.com" style="cursor:pointer;">
+            <rect x="20" y="390" width="220" height="50" rx="3" fill="rgba(239,147,36,0.14)" stroke="var(--orange)" stroke-width="2"/>
+            <text x="130" y="412" text-anchor="middle" fill="var(--orange)" font-size="13" font-family="DM Serif Display,serif" font-weight="600">BLuB</text>
+            <text x="130" y="428" text-anchor="middle" fill="rgba(240,237,225,0.6)" font-size="8.5" font-family="DM Sans,sans-serif">Fachschaftsrat · Das sind wir!</text>
+          </g>
+
+          <!-- Fußleiste: Studierende der TU Berlin -->
+          <rect x="0" y="560" width="900" height="60" rx="0" fill="rgba(172,187,125,0.06)" stroke="rgba(172,187,125,0.15)" stroke-width="1"/>
+          <line x1="260" y1="560" x2="260" y2="620" stroke="rgba(239,147,36,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="130" y="590" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="11" font-family="DM Sans,sans-serif" font-weight="600" letter-spacing="0.5">STUDIERENDE DER TU BERLIN</text>
+          <text x="585" y="582" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="10" font-family="DM Sans,sans-serif" font-weight="600">MITGLIEDER DER TU BERLIN</text>
+          <text x="585" y="597" text-anchor="middle" fill="rgba(240,237,225,0.35)" font-size="8.5" font-family="DM Sans,sans-serif">St: Studierende · AM: Akademische Mitarb. · SM: Sonstige Mitarb. · HL: Hochschullehrer*innen</text>
+          <text x="585" y="612" text-anchor="middle" fill="rgba(240,237,225,0.25)" font-size="8" font-family="DM Sans,sans-serif">In Anlehnung an: EB104, 2011</text>
+        </svg>
       </div>
 
       <div class="hopo-links">
@@ -538,74 +681,79 @@
         <button onclick="filterMarkers('cafe')" class="map-filter-btn" id="f-cafe">☕ Cafés</button>
         <button onclick="filterMarkers('ini')" class="map-filter-btn" id="f-ini">🔬 Initiativen</button>
         <button onclick="filterMarkers('service')" class="map-filter-btn" id="f-service">🛠 Service</button>
+        <button onclick="filterMarkers('closed')" class="map-filter-btn" id="f-closed">🕯 Geschlossen</button>
       </div>
 
-      <div style="position:relative; border:1px solid rgba(240,237,225,0.1); overflow:hidden;">
-        <div id="campusMap" style="width:100%; height:540px; position:relative; overflow:hidden; background:#0b1623;">
+      <div style="position:relative; border:1px solid rgba(240,237,225,0.15); overflow:hidden;">
+        <div id="campusMap" style="width:100%; height:540px; position:relative; overflow:hidden; background:#0d1f33;">
 
           <!-- Grid -->
-          <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.04;" xmlns="http://www.w3.org/2000/svg">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.07;" xmlns="http://www.w3.org/2000/svg">
             <defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0L0 0 0 40" fill="none" stroke="#F0EDE1" stroke-width="0.5"/></pattern></defs>
             <rect width="100%" height="100%" fill="url(#g)"/>
           </svg>
 
-          <!-- Statische Karte SVG -->
+          <!-- Statische Karte SVG – hellere Straßen & Gebäude -->
           <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;" viewBox="0 0 800 540" xmlns="http://www.w3.org/2000/svg">
             <!-- Straße des 17. Juni -->
-            <rect x="0" y="248" width="800" height="16" fill="rgba(240,237,225,0.07)" rx="0"/>
-            <text x="16" y="243" fill="rgba(240,237,225,0.22)" font-size="8.5" font-family="DM Sans,sans-serif" letter-spacing="1.5">STRASSE DES 17. JUNI</text>
+            <rect x="0" y="248" width="800" height="18" fill="rgba(240,237,225,0.13)" rx="0"/>
+            <text x="16" y="243" fill="rgba(240,237,225,0.45)" font-size="8.5" font-family="DM Sans,sans-serif" letter-spacing="1.5">STRASSE DES 17. JUNI</text>
+            <!-- Hardenbergstrasse -->
+            <rect x="0" y="44" width="800" height="12" fill="rgba(240,237,225,0.08)"/>
+            <text x="16" y="40" fill="rgba(240,237,225,0.38)" font-size="8" font-family="DM Sans,sans-serif" letter-spacing="1.2">HARDENBERGSTRASSE</text>
             <!-- Einsteinufer -->
-            <line x1="390" y1="0" x2="590" y2="248" stroke="rgba(240,237,225,0.05)" stroke-width="12"/>
-            <text x="445" y="72" fill="rgba(240,237,225,0.18)" font-size="8" font-family="DM Sans,sans-serif" transform="rotate(33,445,72)" letter-spacing="1.2">EINSTEINUFER</text>
+            <line x1="390" y1="0" x2="590" y2="248" stroke="rgba(240,237,225,0.1)" stroke-width="13"/>
+            <text x="445" y="72" fill="rgba(240,237,225,0.35)" font-size="8" font-family="DM Sans,sans-serif" transform="rotate(33,445,72)" letter-spacing="1.2">EINSTEINUFER</text>
             <!-- Marchstraße -->
-            <rect x="182" y="0" width="11" height="540" fill="rgba(240,237,225,0.04)"/>
-            <text x="166" y="120" fill="rgba(240,237,225,0.18)" font-size="8" font-family="DM Sans,sans-serif" transform="rotate(90,166,120)" letter-spacing="1.2">MARCHSTRASSE</text>
+            <rect x="182" y="0" width="12" height="540" fill="rgba(240,237,225,0.08)"/>
+            <text x="164" y="130" fill="rgba(240,237,225,0.35)" font-size="8" font-family="DM Sans,sans-serif" transform="rotate(90,164,130)" letter-spacing="1.2">MARCHSTRASSE</text>
             <!-- Müller-Breslau -->
-            <rect x="500" y="0" width="9" height="248" fill="rgba(240,237,225,0.04)"/>
-            <!-- Hardenbergstr oben -->
-            <rect x="0" y="44" width="800" height="10" fill="rgba(240,237,225,0.04)"/>
-            <text x="16" y="40" fill="rgba(240,237,225,0.18)" font-size="8" font-family="DM Sans,sans-serif" letter-spacing="1.2">HARDENBERGSTRASSE</text>
-            <!-- Hauptgebäude -->
-            <rect x="298" y="172" width="128" height="78" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.1)" stroke-width="1" rx="2"/>
-            <text x="316" y="214" fill="rgba(240,237,225,0.28)" font-size="8" font-family="DM Sans,sans-serif" letter-spacing="0.5">HAUPTGEBÄUDE (H)</text>
+            <rect x="500" y="0" width="10" height="248" fill="rgba(240,237,225,0.07)"/>
+
+            <!-- Hauptgebäude (H) -->
+            <rect x="298" y="172" width="128" height="78" fill="rgba(240,237,225,0.07)" stroke="rgba(240,237,225,0.22)" stroke-width="1.5" rx="2"/>
+            <text x="316" y="215" fill="rgba(240,237,225,0.55)" font-size="8.5" font-family="DM Sans,sans-serif" font-weight="600" letter-spacing="0.5">HAUPTGEBÄUDE</text>
             <!-- EB -->
-            <rect x="102" y="278" width="85" height="62" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.08)" stroke-width="1" rx="2"/>
-            <text x="115" y="312" fill="rgba(240,237,225,0.22)" font-size="8" font-family="DM Sans,sans-serif">EB-GEBÄUDE</text>
+            <rect x="102" y="278" width="85" height="62" fill="rgba(240,237,225,0.05)" stroke="rgba(240,237,225,0.18)" stroke-width="1" rx="2"/>
+            <text x="115" y="313" fill="rgba(240,237,225,0.42)" font-size="8" font-family="DM Sans,sans-serif">EB-GEBÄUDE</text>
             <!-- Z (BLuB) -->
-            <rect x="200" y="290" width="58" height="48" fill="rgba(239,147,36,0.07)" stroke="rgba(239,147,36,0.22)" stroke-width="1" rx="2"/>
-            <text x="207" y="318" fill="rgba(239,147,36,0.55)" font-size="7.5" font-family="DM Sans,sans-serif" font-weight="600">Z (BLuB)</text>
+            <rect x="200" y="290" width="58" height="48" fill="rgba(239,147,36,0.1)" stroke="rgba(239,147,36,0.4)" stroke-width="1.5" rx="2"/>
+            <text x="207" y="318" fill="rgba(239,147,36,0.8)" font-size="7.5" font-family="DM Sans,sans-serif" font-weight="700">Z (BLuB)</text>
             <!-- MA -->
-            <rect x="316" y="280" width="62" height="58" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.08)" stroke-width="1" rx="2"/>
-            <text x="330" y="313" fill="rgba(240,237,225,0.22)" font-size="8" font-family="DM Sans,sans-serif">MA</text>
+            <rect x="316" y="280" width="62" height="58" fill="rgba(240,237,225,0.05)" stroke="rgba(240,237,225,0.18)" stroke-width="1" rx="2"/>
+            <text x="330" y="314" fill="rgba(240,237,225,0.42)" font-size="8" font-family="DM Sans,sans-serif">MA</text>
             <!-- TEL -->
-            <rect x="560" y="280" width="72" height="55" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.08)" stroke-width="1" rx="2"/>
-            <text x="576" y="312" fill="rgba(240,237,225,0.22)" font-size="8" font-family="DM Sans,sans-serif">TEL</text>
+            <rect x="560" y="280" width="72" height="55" fill="rgba(240,237,225,0.05)" stroke="rgba(240,237,225,0.18)" stroke-width="1" rx="2"/>
+            <text x="576" y="312" fill="rgba(240,237,225,0.42)" font-size="8" font-family="DM Sans,sans-serif">TEL</text>
             <!-- EW -->
-            <rect x="440" y="56" width="55" height="50" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.08)" stroke-width="1" rx="2"/>
-            <text x="452" y="83" fill="rgba(240,237,225,0.22)" font-size="8" font-family="DM Sans,sans-serif">EW</text>
-            <!-- TK -->
-            <rect x="258" y="56" width="60" height="50" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.08)" stroke-width="1" rx="2"/>
-            <text x="272" y="84" fill="rgba(240,237,225,0.22)" font-size="8" font-family="DM Sans,sans-serif">TK (AStA)</text>
+            <rect x="440" y="56" width="55" height="50" fill="rgba(240,237,225,0.05)" stroke="rgba(240,237,225,0.18)" stroke-width="1" rx="2"/>
+            <text x="452" y="84" fill="rgba(240,237,225,0.42)" font-size="8" font-family="DM Sans,sans-serif">EW</text>
+            <!-- TK (AStA) -->
+            <rect x="258" y="56" width="60" height="50" fill="rgba(240,237,225,0.05)" stroke="rgba(240,237,225,0.18)" stroke-width="1" rx="2"/>
+            <text x="268" y="84" fill="rgba(240,237,225,0.42)" font-size="8" font-family="DM Sans,sans-serif">TK (AStA)</text>
             <!-- FH -->
-            <rect x="196" y="56" width="52" height="50" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.08)" stroke-width="1" rx="2"/>
-            <text x="205" y="84" fill="rgba(240,237,225,0.22)" font-size="8" font-family="DM Sans,sans-serif">FH</text>
+            <rect x="196" y="56" width="52" height="50" fill="rgba(240,237,225,0.05)" stroke="rgba(240,237,225,0.18)" stroke-width="1" rx="2"/>
+            <text x="206" y="84" fill="rgba(240,237,225,0.42)" font-size="8" font-family="DM Sans,sans-serif">FH</text>
+            <!-- A-Gebäude -->
+            <rect x="30" y="290" width="58" height="52" fill="rgba(177,29,37,0.06)" stroke="rgba(177,29,37,0.2)" stroke-width="1" rx="2"/>
+            <text x="40" y="320" fill="rgba(177,29,37,0.6)" font-size="8" font-family="DM Sans,sans-serif">A (Café A)</text>
             <!-- Kompass -->
-            <text x="758" y="32" fill="rgba(240,237,225,0.28)" font-size="12" font-family="DM Sans,sans-serif" font-weight="700">N ↑</text>
+            <text x="758" y="32" fill="rgba(240,237,225,0.45)" font-size="12" font-family="DM Sans,sans-serif" font-weight="700">N ↑</text>
           </svg>
 
           <!-- Marker -->
           <div id="markerContainer" style="position:absolute;inset:0;"></div>
 
           <!-- Popup -->
-          <div id="mapPopup" style="display:none;position:absolute;z-index:200;background:#0d1d2e;border:1px solid rgba(239,147,36,0.4);padding:14px 16px;max-width:230px;box-shadow:0 8px 32px rgba(0,0,0,0.7);pointer-events:none;">
+          <div id="mapPopup" style="display:none;position:absolute;z-index:200;background:#0d1d2e;border:1px solid rgba(239,147,36,0.4);padding:14px 16px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,0.7);pointer-events:none;">
             <div id="ppName" style="font-family:'DM Serif Display',serif;font-size:0.95rem;color:#F0EDE1;margin-bottom:3px;"></div>
-            <div id="ppRoom" style="font-size:0.65rem;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;"></div>
+            <div id="ppRoom" style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;"></div>
             <div id="ppDesc" style="font-size:0.75rem;line-height:1.6;color:rgba(240,237,225,0.65);"></div>
             <div id="ppLink" style="margin-top:8px;"></div>
           </div>
         </div>
 
-        <div style="padding:10px 16px;border-top:1px solid rgba(240,237,225,0.07);display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+        <div style="padding:10px 16px;border-top:1px solid rgba(240,237,225,0.08);display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
           <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-dim);">
             <span style="width:9px;height:9px;border-radius:50%;background:var(--orange);display:inline-block;"></span> Café / Treffpunkt
           </span>
@@ -615,13 +763,14 @@
           <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--text-dim);">
             <span style="width:9px;height:9px;border-radius:50%;background:#a5aaff;display:inline-block;"></span> Service
           </span>
-          <span style="margin-left:auto;font-size:0.67rem;color:var(--text-dim);">Quelle: AStA TU Berlin · Infos können veraltet sein</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:0.7rem;color:rgba(177,29,37,0.85);">
+            <span style="width:9px;height:9px;border-radius:50%;background:#B11D25;display:inline-block;border:2px solid rgba(177,29,37,0.5);"></span> Geschlossen – kämpf dafür!
+          </span>
+          <span style="margin-left:auto;font-size:0.67rem;color:var(--text-dim);">Kein Anspruch auf Vollständigkeit ·
+            <a href="https://asta.tu-berlin.de/inis-cafes/" target="_blank" style="color:var(--orange);text-decoration:none;">alle Initiativen →</a>
+          </span>
         </div>
       </div>
-
-      <p style="font-size:0.75rem;color:var(--text-dim);margin-top:12px;">
-        Vollständige Liste: <a href="https://asta.tu-berlin.de/inis-cafes/" target="_blank" style="color:var(--orange);text-decoration:none;">asta.tu-berlin.de/inis-cafes</a>
-      </p>
     </div>
   </section>
 
@@ -705,7 +854,7 @@
         </div>
       </div>
     </div>
-    <div class="footer-bottom">
+    <div class="footer-bottom" style="justify-content:center; text-align:center;">
       <span>© 2026 BLuB – Für Euch von uns mit ❤️</span>
     </div>
   </footer>
@@ -730,7 +879,35 @@
     const obs = new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.12});
     document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 
-    // Org tooltip (with link support)
+    // SVG Organigramm Tooltips
+    document.querySelectorAll('.hopo-svg-node').forEach(n => {
+      n.addEventListener('mouseenter', () => {
+        tT.textContent = n.dataset.title || '';
+        tB.textContent = n.dataset.body || '';
+        const existingLink = tip.querySelector('.tip-link');
+        if (existingLink) existingLink.remove();
+        if (n.dataset.link) {
+          const a = document.createElement('a');
+          a.href = n.dataset.link;
+          a.target = '_blank';
+          a.className = 'tip-link';
+          a.textContent = n.dataset.link.startsWith('mailto') ? 'Kontakt aufnehmen →' : 'Mehr erfahren →';
+          a.style.cssText = 'display:block;margin-top:10px;font-size:0.72rem;color:var(--orange);font-weight:600;text-decoration:none;pointer-events:auto;';
+          tip.appendChild(a);
+          tip.style.pointerEvents = 'auto';
+        } else {
+          tip.style.pointerEvents = 'none';
+        }
+        tip.classList.add('visible');
+      });
+      n.addEventListener('mousemove', (e) => {
+        const x = e.clientX + 16, y = e.clientY + 16;
+        const tw = tip.offsetWidth, th = tip.offsetHeight;
+        tip.style.left = (x + tw > window.innerWidth ? x - tw - 32 : x) + 'px';
+        tip.style.top  = (y + th > window.innerHeight ? y - th - 32 : y) + 'px';
+      });
+      n.addEventListener('mouseleave', () => { setTimeout(() => { if (!tip.matches(':hover')) tip.classList.remove('visible'); }, 100); });
+    });
     const tip=document.getElementById('orgTooltip');
     const tT=document.getElementById('orgTooltipTitle');
     const tB=document.getElementById('orgTooltipBody');
@@ -768,25 +945,30 @@
 
     // ── Campus Map ──────────────────────────────────────────────
     const locations = [
-      // Cafés
-      { name:'Café Erdreich', room:'Z-002', type:'cafe', x:220, y:312, desc:'Studi-Raum von BLuB, Geotechnologen und Materialisten. Unser Zuhause!', isBlub:true },
+      // Cafés – offen
+      { name:'Café Erdreich', room:'Z-002', type:'cafe', x:220, y:312, desc:'Unser Zuhause! Studi-Raum von BLuB, Geotechnologen und Materialisten.', isBlub:true },
       { name:'Atomic Café', room:'EW-021', type:'cafe', x:462, y:78, desc:'Studentisches Café der Physiker*innen.', link:'http://ini.physik.tu-berlin.de/atomic/' },
-      { name:'Café A', room:'A-013', type:'cafe', x:92, y:330, desc:'Café der Architekt*innen und anderer netter Leute.', link:'https://www.facebook.com/CafeA.TU' },
-      { name:'Café Oase', room:'TIB-552', type:'cafe', x:710, y:130, desc:'Kleines Café-Angebot im TIB-Gebäude, von Studierenden organisiert.' },
+      { name:'Café Oase', room:'TIB-552', type:'cafe', x:710, y:130, desc:'Kleines Café-Angebot im TIB-Gebäude, von Studierenden selbst organisiert.' },
       { name:'Café Shila', room:'E-024/025', type:'cafe', x:390, y:185, desc:'Studentisches Café im E-Gebäude.', link:'https://www.facebook.com/CafeShila/' },
       { name:'PlanWirtschaft', room:'B-001', type:'cafe', x:68, y:410, desc:'Studentisches Café der Stadt- und Regionalplaner*innen.' },
-      { name:'TELquel', room:'TEL-001', type:'cafe', x:590, y:312, desc:'Café im TEL-Gebäude.', link:'http://telquel.de/blogs/' },
-      { name:'WiWiCafé', room:'EB-302', type:'cafe', x:148, y:295, desc:'Café für Wirtschaftsstudierende. In den Semesterferien regelmäßig geöffnet.', link:'http://www.wiwicafe.de' },
+      { name:'WiWiCafé', room:'EB-302', type:'cafe', x:148, y:295, desc:'Café für Wirtschaftsstudierende, auch in den Semesterferien geöffnet.', link:'http://www.wiwicafe.de' },
       { name:'Zur Nullstelle', room:'MA-844', type:'cafe', x:340, y:296, desc:'Mathe-Café im 8. Stock des MA-Gebäudes.' },
+      { name:'i-café', room:'FH-304/305', type:'cafe', x:218, y:78, desc:'Café im FH-Gebäude.' },
+      // Geschlossen – Mahnmäler
+      { name:'Café A ⚠ Geschlossen', room:'A-013', type:'closed', x:58, y:314,
+        desc:'Wegen Brandschutzmängeln vorerst geschlossen. Betreibt nur noch einen Außentresen behelfsmäßig. Kämpf mit uns dafür, dass dieser Raum wiedereröffnet wird!',
+        link:'https://www.facebook.com/CafeA.TU' },
+      { name:'TELquel ⚠ Geschlossen', room:'TEL-001', type:'closed', x:590, y:312,
+        desc:'Seit über einem Jahr „vorerst" geschlossen. Kein offizielles Datum zur Wiedereröffnung. Solche Räume verschwinden still – das darf nicht passieren.',
+        link:'https://www.facebook.com/CafeTelquel/' },
       // Initiativen
       { name:'AStA', room:'TK-113', type:'service', x:284, y:78, desc:'Allgemeiner Studierendenausschuss – Beratung, Politik & Service für alle Studis.', link:'https://asta.tu-berlin.de/' },
       { name:'EB104', room:'EB-226', type:'ini', x:134, y:285, desc:'Fachbereichsinitiative für Fak. III & V. Lockerer Zusammenschluss engagierter Studis.', link:'http://eb104.tu-berlin.de' },
       { name:'Freitagsrunde', room:'MAR-0.005', type:'ini', x:692, y:355, desc:'Studentische Initiative an der Fakultät IV (Informatik & Elektrotechnik).', link:'http://freitagsrunde.org' },
-      { name:'i-café', room:'FH-304/305', type:'cafe', x:218, y:78, desc:'Café im FH-Gebäude.' },
-      { name:'INI|Chemie', room:'C-334b', type:'ini', x:520, y:410, desc:'Fachbereichinitiative Chemie der TU Berlin.', link:'http://www.chemie.tu-berlin.de/ini_chemie/ini_chemie/' },
+      { name:'INI|Chemie', room:'C-334b', type:'ini', x:520, y:410, desc:'Fachbereichinitiative Chemie der TU Berlin.', link:'http://www.chemie.tu-berlin.de/ini_chemie/' },
       { name:'KulT Ini', room:'MAR-2.072', type:'ini', x:660, y:410, desc:'Fachschaftsinitiative Kultur und Technik, Fakultät I.', link:'mailto:kult.ini.tub@gmail.com' },
       { name:'Projektrat', room:'B-002', type:'ini', x:68, y:440, desc:'Fachbereichsinitiative der Stadt- & Regionalplanung.' },
-      { name:'tu-ess', room:'EB015', type:'ini', x:110, y:340, desc:'Studentische Initiative für ökologisch produzierte Lebensmittel und FoodCoop.', link:'http://tu-ess.do-coop.net' },
+      { name:'tu-ess', room:'EB-015', type:'ini', x:110, y:340, desc:'Studentische Initiative für ökologisch produzierte Lebensmittel und FoodCoop.', link:'http://tu-ess.do-coop.net' },
       { name:'unirad', room:'HFT-027', type:'ini', x:730, y:430, desc:'Selbsthilfe-Fahrradwerkstatt. Werkzeug, Tipps und Material gegen Spende.', link:'http://unirad.blogsport.de/kontakt/' },
       { name:'UTEX-Plenum', room:'KF-502', type:'ini', x:580, y:180, desc:'UmwelttechniX – engagierte Umweltschützer*innen, aktiv in der Unipolitik.', link:'https://www.facebook.com/Utex-TU-Berlin-147275702006262/' },
       { name:'Zwille', room:'SE-Gebäude', type:'ini', x:760, y:310, desc:'Offener Raum an der TU Berlin.', link:'http://www.zwille.org' },
@@ -796,7 +978,8 @@
       { name:'PRSB', room:'H-1501', type:'service', x:380, y:210, desc:'Personalrat der studentischen Beschäftigten.', link:'http://www.tu-berlin.de/prsb/menue/home/' },
     ];
 
-    const colors = { cafe: '#EF9324', ini: '#ACBB7D', service: '#a5aaff' };
+    const colors = { cafe:'#EF9324', ini:'#ACBB7D', service:'#a5aaff', closed:'#B11D25' };
+
     const container = document.getElementById('markerContainer');
     const popup = document.getElementById('mapPopup');
 
@@ -805,28 +988,38 @@
       locations.forEach(loc => {
         if (filter !== 'all' && loc.type !== filter) return;
         const el = document.createElement('div');
+        const isClosed = loc.type === 'closed';
         el.className = 'map-marker' + (loc.isBlub ? ' blub-marker' : '');
-        el.style.cssText = `left:${loc.x/800*100}%;top:${loc.y/540*100}%;background:${colors[loc.type]};color:${colors[loc.type]};`;
-        el.dataset.name = loc.name;
+        el.style.cssText = `left:${loc.x/800*100}%;top:${loc.y/540*100}%;background:${colors[loc.type]};color:${colors[loc.type]};${isClosed ? 'opacity:0.85;border:2px dashed rgba(177,29,37,0.8);' : ''}`;
+        // Closed markers: show X inside
+        if (isClosed) {
+          el.innerHTML = '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:700;line-height:1;">✕</span>';
+          el.style.width = '16px';
+          el.style.height = '16px';
+          el.style.borderRadius = '3px';
+        }
         el.addEventListener('click', (e) => {
           e.stopPropagation();
           document.getElementById('ppName').textContent = loc.name;
-          document.getElementById('ppRoom').textContent = loc.room;
+          const roomEl = document.getElementById('ppRoom');
+          roomEl.textContent = loc.room;
+          roomEl.style.color = isClosed ? '#e06060' : 'var(--orange)';
           document.getElementById('ppDesc').textContent = loc.desc;
           const linkEl = document.getElementById('ppLink');
           linkEl.innerHTML = loc.link
             ? `<a href="${loc.link}" target="_blank" style="color:var(--orange);font-size:0.72rem;font-weight:600;text-decoration:none;">Mehr erfahren →</a>`
             : '';
-          // Position popup
           const map = document.getElementById('campusMap');
           const rect = map.getBoundingClientRect();
           const markerRect = el.getBoundingClientRect();
-          let px = markerRect.left - rect.left + 16;
+          let px = markerRect.left - rect.left + 18;
           let py = markerRect.top - rect.top - 10;
-          if (px + 240 > rect.width) px = markerRect.left - rect.left - 246;
+          if (px + 250 > rect.width) px = markerRect.left - rect.left - 258;
+          if (py + 120 > rect.height) py = markerRect.top - rect.top - 130;
           popup.style.left = px + 'px';
           popup.style.top = py + 'px';
           popup.style.display = 'block';
+          popup.style.borderColor = isClosed ? 'rgba(177,29,37,0.5)' : 'rgba(239,147,36,0.4)';
         });
         container.appendChild(el);
       });
@@ -838,9 +1031,7 @@
       document.getElementById('f-' + filter).classList.add('active-filter');
     }
 
-    // Close popup on map click
     document.getElementById('campusMap').addEventListener('click', () => { popup.style.display = 'none'; });
-
     buildMarkers('all');
   </script>
 </body>
