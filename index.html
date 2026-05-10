@@ -18,7 +18,7 @@
     }
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; }
-    body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--cream); overflow-x:hidden; }
+    body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--cream); overflow-x:hidden; overflow-y:auto; }
 
     /* GRAIN */
     body::before {
@@ -40,7 +40,7 @@
       position:relative;
       display:flex; flex-direction:column; justify-content:center;
       gap:5px; width:36px; height:36px; cursor:pointer; padding:4px;
-      flex-shrink:0;
+      flex-shrink:0; z-index:600;
     }
     .hamburger span {
       display:block; width:24px; height:2px;
@@ -49,37 +49,46 @@
     }
     .hamburger:hover span { background:var(--orange); }
 
+    /* Invisible bridge: fills the gap between hamburger and menu */
+    .hamburger::after {
+      content:''; position:fixed;
+      top:0; left:0; width:280px; height:100vh;
+      pointer-events:none;
+    }
+    .hamburger:hover::after { pointer-events:auto; }
+
     /* Flyout nav */
     .hamburger-menu {
-      position:absolute; top:0; left:0;
-      background:rgba(16,33,55,0.97); backdrop-filter:blur(16px);
-      border-right:1px solid rgba(240,237,225,0.1);
+      position:fixed; top:0; left:0;
+      background:rgba(10,20,36,0.98); backdrop-filter:blur(18px);
+      border-right:1px solid rgba(240,237,225,0.08);
       width:260px; height:100vh;
       display:flex; flex-direction:column;
       padding:80px 40px 40px;
-      gap:6px;
+      gap:4px;
       transform:translateX(-100%);
-      transition:transform 0.3s ease;
-      z-index:490;
+      transition:transform 0.28s cubic-bezier(0.4,0,0.2,1);
+      z-index:595; overflow:hidden;
     }
     .hamburger:hover .hamburger-menu,
+    .hamburger:hover ~ .hamburger-menu,
     .hamburger-menu:hover { transform:translateX(0); }
 
     .hamburger-menu a {
       color:var(--cream); text-decoration:none;
-      font-size:1.1rem; font-weight:500;
-      padding:10px 0; border-bottom:1px solid rgba(240,237,225,0.06);
-      letter-spacing:0.04em; opacity:0.8;
-      transition:color 0.2s, opacity 0.2s;
+      font-size:1.05rem; font-weight:500;
+      padding:11px 0; border-bottom:1px solid rgba(240,237,225,0.05);
+      letter-spacing:0.04em; opacity:0.75;
+      transition:color 0.2s, opacity 0.2s, padding-left 0.2s;
     }
-    .hamburger-menu a:hover { color:var(--orange); opacity:1; }
+    .hamburger-menu a:hover { color:var(--orange); opacity:1; padding-left:6px; }
     .hamburger-menu a.menu-cta {
-      margin-top:16px; background:var(--orange); color:var(--navy);
+      margin-top:20px; background:var(--orange); color:var(--navy);
       text-align:center; padding:12px; border-radius:3px;
-      font-weight:700; opacity:1; border:none; font-size:0.88rem;
+      font-weight:700; opacity:1; border:none; font-size:0.85rem;
       letter-spacing:0.06em; text-transform:uppercase;
     }
-    .hamburger-menu a.menu-cta:hover { background:var(--yellow); }
+    .hamburger-menu a.menu-cta:hover { background:var(--yellow); padding-left:0; }
 
     nav { display:flex; gap:28px; align-items:center; }
     nav a { color:var(--cream); text-decoration:none; font-size:0.78rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; opacity:0.7; transition:opacity 0.2s,color 0.2s; }
@@ -192,6 +201,61 @@
     .org-tooltip-title { font-family:'DM Serif Display',serif; font-size:1rem; color:var(--cream); margin-bottom:6px; }
     .org-tooltip-body { font-size:0.78rem; line-height:1.65; color:var(--text-dim); }
     .org-tooltip-member { font-size:0.72rem; color:var(--orange); margin-top:8px; font-weight:600; }
+    /* ── HOPO HOVER CARDS ── */
+    .hopo-card-new {
+      border:1px solid rgba(240,237,225,0.1);
+      background:rgba(240,237,225,0.03);
+      padding:14px 16px;
+      margin-bottom:3px;
+      transition:background 0.2s, border-color 0.2s;
+      cursor:default;
+    }
+    .hopo-card-new:hover {
+      background:rgba(240,237,225,0.07);
+      border-color:rgba(240,237,225,0.22);
+    }
+    .hopo-card-header {
+      display:flex; justify-content:space-between; align-items:baseline;
+      gap:8px;
+    }
+    .hopo-card-title {
+      font-family:'DM Serif Display',serif;
+      font-size:1rem; color:var(--cream);
+    }
+    .hopo-card-relation {
+      font-size:0.65rem; letter-spacing:0.08em;
+      text-transform:uppercase; font-weight:600;
+      white-space:nowrap; flex-shrink:0;
+    }
+    .hopo-card-detail {
+      max-height:0; overflow:hidden;
+      transition:max-height 0.35s ease, padding-top 0.35s ease;
+    }
+    .hopo-card-new:hover .hopo-card-detail {
+      max-height:200px;
+      padding-top:10px;
+    }
+    .hopo-card-detail p {
+      font-size:0.78rem; line-height:1.7;
+      color:var(--text-dim); margin-bottom:6px;
+    }
+    .hopo-card-detail a {
+      font-size:0.72rem; color:var(--orange);
+      text-decoration:none; font-weight:600;
+    }
+    .hopo-card-detail a:hover { color:var(--yellow); }
+
+    .hopo-arrow {
+      font-size:0.7rem; letter-spacing:0.06em;
+      color:rgba(239,147,36,0.65);
+      text-align:center; padding:8px 0;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .hopo-arrow::before, .hopo-arrow::after {
+      content:''; flex:1; height:1px;
+      background:rgba(239,147,36,0.2);
+    }
+
     .hopo-links { display:flex; flex-wrap:wrap; gap:10px; }
     .hopo-link-btn { display:inline-block; padding:9px 20px; border:1px solid rgba(240,237,225,0.18); color:var(--cream); text-decoration:none; font-size:0.76rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; border-radius:2px; transition:all 0.2s; }
     .hopo-link-btn:hover { background:var(--red); border-color:var(--red); }
@@ -297,7 +361,7 @@
 
   <!-- HERO -->
   <section id="start" class="hero">
-    <img src="hintergrund.png" alt="" id="bg-img">
+    <img src="hintergrund.jpg" alt="" id="bg-img">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <img src="blublogo.svg" alt="BLuB Logo" class="hero-logo">
@@ -459,214 +523,129 @@
       <span class="section-label">Hochschulpolitik</span>
       <h2 class="section-title">Deine Uni. Deine Stimme.</h2>
 
-      <!-- Legende -->
-      <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:36px; align-items:center;">
-        <span style="font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim);">Hover über ein Organ für mehr Infos</span>
-        <span style="display:inline-flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--orange); font-weight:600;">
-          <span style="width:10px;height:10px;border-radius:2px;background:rgba(239,147,36,0.3);border:1px solid var(--orange);display:inline-block;"></span> Studentische Selbstverwaltung
-        </span>
-        <span style="display:inline-flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--sage); font-weight:600;">
-          <span style="width:10px;height:10px;border-radius:2px;background:rgba(172,187,125,0.2);border:1px solid var(--sage);display:inline-block;"></span> Akademische Selbstverwaltung
-        </span>
-      </div>
+      <!-- Zwei-Spalten Organigramm -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px; margin-bottom:36px;" class="org-chart">
 
-      <!-- SVG Organigramm -->
-      <div class="org-chart" style="margin-bottom:36px;">
-        <svg id="hopoSVG" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg"
-             style="width:100%; min-width:700px; display:block; overflow:visible;">
-
-          <!-- Hintergrund-Bereiche -->
-          <rect x="0" y="0" width="260" height="560" rx="4" fill="rgba(239,147,36,0.04)" stroke="rgba(239,147,36,0.15)" stroke-width="1"/>
-          <rect x="270" y="0" width="630" height="560" rx="4" fill="rgba(172,187,125,0.03)" stroke="rgba(172,187,125,0.12)" stroke-width="1"/>
-
-          <!-- Bereichs-Titel -->
-          <text x="130" y="24" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="11" font-family="DM Sans,sans-serif" font-weight="600" letter-spacing="1">STUDENTISCHE SELBSTVERWALTUNG</text>
-          <text x="585" y="24" text-anchor="middle" fill="rgba(172,187,125,0.7)" font-size="11" font-family="DM Sans,sans-serif" font-weight="600" letter-spacing="1">AKADEMISCHE SELBSTVERWALTUNG</text>
-
-          <!-- ─────── VERBINDUNGSLINIEN ─────── -->
-          <!-- Studierende → StuPa (wählen jedes Jahr) -->
-          <line x1="130" y1="520" x2="130" y2="440" stroke="rgba(239,147,36,0.4)" stroke-width="1.5" marker-end="url(#arr-orange)"/>
-          <text x="136" y="488" fill="rgba(239,147,36,0.6)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählen jedes Jahr</text>
-
-          <!-- Studierende → eAS/AS (wählen alle 2 Jahre) -->
-          <line x1="480" y1="520" x2="480" y2="340" stroke="rgba(172,187,125,0.35)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-sage)"/>
-          <text x="486" y="440" fill="rgba(172,187,125,0.55)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählen alle 2 Jahre</text>
-
-          <!-- StuPa → AStA (wählt) -->
-          <line x1="130" y1="340" x2="130" y2="250" stroke="rgba(239,147,36,0.4)" stroke-width="1.5" marker-end="url(#arr-orange)"/>
-          <text x="136" y="300" fill="rgba(239,147,36,0.6)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählt jedes Jahr</text>
-
-          <!-- eAS → Präsidium (wählt alle 4J) -->
-          <line x1="530" y1="260" x2="630" y2="200" stroke="rgba(172,187,125,0.4)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
-          <text x="548" y="238" fill="rgba(172,187,125,0.55)" font-size="8.5" font-family="DM Sans,sans-serif" font-style="italic">wählt P alle 4J, VP alle 2J</text>
-
-          <!-- Kuratorium → Kanzler*in (wählt) -->
-          <line x1="410" y1="130" x2="730" y2="130" stroke="rgba(172,187,125,0.4)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
-          <text x="520" y="122" fill="rgba(172,187,125,0.55)" font-size="9" font-family="DM Sans,sans-serif" font-style="italic">wählt</text>
-
-          <!-- Kuratorium kontrolliert Präsidium -->
-          <line x1="410" y1="145" x2="620" y2="175" stroke="rgba(172,187,125,0.3)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-sage-sm)"/>
-          <text x="470" y="168" fill="rgba(172,187,125,0.45)" font-size="8" font-family="DM Sans,sans-serif" font-style="italic">kontrolliert</text>
-
-          <!-- AS wählt externe KU-Mitglieder -->
-          <path d="M 480 260 Q 380 200 400 145" fill="none" stroke="rgba(172,187,125,0.3)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-sage-sm)"/>
-          <text x="390" y="200" fill="rgba(172,187,125,0.45)" font-size="8" font-family="DM Sans,sans-serif" font-style="italic">AS wählt ext. Mitgl.</text>
-
-          <!-- FakRat → Dekan (wählt) -->
-          <line x1="680" y1="370" x2="790" y2="370" stroke="rgba(172,187,125,0.35)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
-          <text x="700" y="362" fill="rgba(172,187,125,0.55)" font-size="8.5" font-family="DM Sans,sans-serif" font-style="italic">wählt</text>
-
-          <!-- InstRat → GD (wählt) -->
-          <line x1="680" y1="460" x2="790" y2="460" stroke="rgba(172,187,125,0.35)" stroke-width="1.5" marker-end="url(#arr-sage)"/>
-          <text x="700" y="452" fill="rgba(172,187,125,0.55)" font-size="8.5" font-family="DM Sans,sans-serif" font-style="italic">wählt</text>
-
-          <!-- ─────── PFEILSPITZEN DEFINITIONEN ─────── -->
-          <defs>
-            <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-              <polygon points="0 0, 8 3, 0 6" fill="rgba(239,147,36,0.6)"/>
-            </marker>
-            <marker id="arr-sage" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-              <polygon points="0 0, 8 3, 0 6" fill="rgba(172,187,125,0.55)"/>
-            </marker>
-            <marker id="arr-sage-sm" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
-              <polygon points="0 0, 6 2.5, 0 5" fill="rgba(172,187,125,0.4)"/>
-            </marker>
-          </defs>
-
-          <!-- ─────── KNOTEN ─────── -->
+        <!-- Linke Spalte: Studentische Selbstverwaltung -->
+        <div style="background:rgba(239,147,36,0.04); border:1px solid rgba(239,147,36,0.12); padding:28px 24px;">
+          <p style="font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--orange); font-weight:600; margin-bottom:24px;">Studentische Selbstverwaltung</p>
 
           <!-- AStA -->
-          <g class="hopo-svg-node" data-title="AStA – Allgemeiner Studierendenausschuss"
-             data-body="Exekutive der Studierendenschaft mit mind. 10 Referaten. Wird jährlich vom StuPa gewählt. Bietet Beratung zu BAföG, Recht und sozialen Fragen und setzt Beschlüsse um."
-             data-link="https://www.asta.tu-berlin.de/" style="cursor:pointer;">
-            <rect x="20" y="200" width="220" height="70" rx="3" fill="rgba(239,147,36,0.1)" stroke="rgba(239,147,36,0.5)" stroke-width="1.5"/>
-            <text x="130" y="227" text-anchor="middle" fill="#F0EDE1" font-size="13" font-family="DM Serif Display,serif" font-weight="600">AStA</text>
-            <text x="130" y="244" text-anchor="middle" fill="rgba(240,237,225,0.6)" font-size="9" font-family="DM Sans,sans-serif">Allgemeiner Studierendenausschuss</text>
-            <text x="130" y="258" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="8.5" font-family="DM Sans,sans-serif">mind. 10 Referate</text>
-          </g>
+          <div class="hopo-card-new">
+            <div class="hopo-card-header">
+              <span class="hopo-card-title">AStA</span>
+              <span class="hopo-card-relation" style="color:var(--orange);">← vom StuPa gewählt</span>
+            </div>
+            <div class="hopo-card-detail">
+              <p>Exekutive der Studierendenschaft mit mind. 10 Referaten. Bietet Beratung (BAföG, Recht, Soziales), organisiert Events und setzt Beschlüsse um.</p>
+              <a href="https://www.asta.tu-berlin.de/" target="_blank">asta.tu-berlin.de →</a>
+            </div>
+          </div>
+
+          <div class="hopo-arrow">↑ wählt jedes Jahr</div>
 
           <!-- StuPa -->
-          <g class="hopo-svg-node" data-title="Studierendenparlament (StuPa)"
-             data-body="60 Sitze. Höchstes Gremium der Studierendenschaft. Wählt den AStA, beschließt den Haushalt. Alle Studierenden wählen jedes Jahr. Kandidieren kann jede:r!"
-             data-link="https://www.tu.berlin/studierendenschaft/stupa" style="cursor:pointer;">
-            <rect x="20" y="290" width="220" height="80" rx="3" fill="rgba(239,147,36,0.08)" stroke="rgba(239,147,36,0.4)" stroke-width="1.5"/>
-            <text x="130" y="318" text-anchor="middle" fill="#F0EDE1" font-size="13" font-family="DM Serif Display,serif">StuPa</text>
-            <text x="130" y="334" text-anchor="middle" fill="rgba(240,237,225,0.6)" font-size="9" font-family="DM Sans,sans-serif">Studierendenparlament</text>
-            <text x="130" y="349" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="8.5" font-family="DM Sans,sans-serif">60 Mitglieder · St: 60</text>
-          </g>
+          <div class="hopo-card-new">
+            <div class="hopo-card-header">
+              <span class="hopo-card-title">StuPa</span>
+              <span class="hopo-card-relation" style="color:var(--orange);">60 Sitze</span>
+            </div>
+            <div class="hopo-card-detail">
+              <p>Studierendenparlament – höchstes Gremium der Studierendenschaft. Wählt den AStA jährlich und beschließt den Haushalt. <strong>Alle Studis wählen jedes Jahr.</strong></p>
+              <a href="https://www.tu.berlin/studierendenschaft/stupa" target="_blank">StuPa TU Berlin →</a>
+            </div>
+          </div>
 
-          <!-- Kuratorium -->
-          <g class="hopo-svg-node" data-title="Kuratorium (KU)"
-             data-body="Kontrolliert das Präsidium und wählt den Kanzler / die Kanzlerin. Besteht aus Bildungssenator*in, 6 externen Mitgliedern und 4 TU-Mitgliedern (St:1 / AM:1 / SM:1 / HL:1). Externe Mitglieder werden vom AS gewählt."
-             style="cursor:pointer;">
-            <rect x="290" y="100" width="180" height="75" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.2)" stroke-width="1.5"/>
-            <text x="380" y="124" text-anchor="middle" fill="#F0EDE1" font-size="12" font-family="DM Serif Display,serif">Kuratorium</text>
-            <text x="380" y="140" text-anchor="middle" fill="rgba(240,237,225,0.5)" font-size="8" font-family="DM Sans,sans-serif">Bildungssenator*in + 6 ext. Mitgl.</text>
-            <text x="380" y="153" text-anchor="middle" fill="rgba(172,187,125,0.7)" font-size="8" font-family="DM Sans,sans-serif">St: 1 / AM: 1 / SM: 1 / HL: 1</text>
-          </g>
-
-          <!-- eAS + AS (gestapelt) -->
-          <g class="hopo-svg-node" data-title="Erweiterter Akademischer Senat (eAS) & Akademischer Senat (AS)"
-             data-body="eAS: 10 Studierendensitze – wählt Präsident*in (alle 4J) und Vizepräsident*innen (alle 2J). AS: 4 Studierendensitze – höchstes Beschlussgremium, entscheidet über Satzungen und Studienordnungen. Beide alle 2 Jahre gewählt."
-             style="cursor:pointer;">
-            <rect x="390" y="215" width="195" height="95" rx="3" fill="rgba(239,147,36,0.06)" stroke="rgba(239,147,36,0.35)" stroke-width="1.5"/>
-            <text x="488" y="240" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Erweiterter Akademischer Senat</text>
-            <text x="488" y="254" text-anchor="middle" fill="rgba(239,147,36,0.6)" font-size="8" font-family="DM Sans,sans-serif">St: 10 / AM: 10 / SM: 10 / HL: 31</text>
-            <rect x="405" y="265" width="165" height="35" rx="2" fill="rgba(239,147,36,0.06)" stroke="rgba(239,147,36,0.25)" stroke-width="1" stroke-dasharray="3,2"/>
-            <text x="488" y="279" text-anchor="middle" fill="#F0EDE1" font-size="10.5" font-family="DM Serif Display,serif">Akademischer Senat</text>
-            <text x="488" y="293" text-anchor="middle" fill="rgba(239,147,36,0.6)" font-size="8" font-family="DM Sans,sans-serif">St: 4 / AM: 4 / SM: 4 / HL: 13</text>
-          </g>
-
-          <!-- Präsidium -->
-          <g class="hopo-svg-node" data-title="Präsident*in und Vizepräsident*innen"
-             data-body="Leitet die TU Berlin strategisch. Präsident*in wird vom eAS alle 4 Jahre gewählt, Vizepräsident*innen alle 2 Jahre. Verantwortet Forschung, Lehre, Digitalisierung und Nachhaltigkeit."
-             data-link="https://www.tu.berlin/ueber-die-tu-berlin/profil/praesidium" style="cursor:pointer;">
-            <rect x="610" y="155" width="175" height="65" rx="3" fill="rgba(172,187,125,0.06)" stroke="rgba(172,187,125,0.35)" stroke-width="1.5"/>
-            <text x="698" y="180" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Präsident*in /</text>
-            <text x="698" y="195" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Vizepräsident*innen</text>
-            <text x="698" y="210" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="8" font-family="DM Sans,sans-serif">Prof. Dr. Fatma Deniz</text>
-          </g>
-
-          <!-- Kanzler*in + Verwaltung -->
-          <g class="hopo-svg-node" data-title="Kanzler*in & Zentrale Universitätsverwaltung"
-             data-body="Kanzler*in wird vom Kuratorium gewählt. Leitet die zentrale Universitätsverwaltung mit 6 Abteilungen (Studienservice, Personal, Finanzen, Gebäude, Forschung, Internationales)."
-             style="cursor:pointer;">
-            <rect x="730" y="100" width="155" height="50" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.18)" stroke-width="1.5"/>
-            <text x="808" y="122" text-anchor="middle" fill="#F0EDE1" font-size="11" font-family="DM Serif Display,serif">Kanzler*in</text>
-            <rect x="730" y="152" width="155" height="36" rx="2" fill="rgba(240,237,225,0.03)" stroke="rgba(240,237,225,0.12)" stroke-width="1" stroke-dasharray="3,2"/>
-            <text x="808" y="168" text-anchor="middle" fill="rgba(240,237,225,0.5)" font-size="8.5" font-family="DM Sans,sans-serif">Zentrale Universitätsverwaltung</text>
-            <text x="808" y="181" text-anchor="middle" fill="rgba(240,237,225,0.35)" font-size="8" font-family="DM Sans,sans-serif">Abteilungen I – VI</text>
-          </g>
-
-          <!-- Fakultätsrat -->
-          <g class="hopo-svg-node" data-title="Fakultätsrat (FakRat)"
-             data-body="Entscheidet über Prüfungsordnungen, Lehrpläne und Personalentscheidungen. 2 Studierendensitze! Alle 2 Jahre gewählt. BLuB gehört zur Fakultät III Prozesswissenschaften."
-             style="cursor:pointer;">
-            <rect x="540" y="340" width="175" height="62" rx="3" fill="rgba(172,187,125,0.07)" stroke="rgba(172,187,125,0.4)" stroke-width="1.5"/>
-            <text x="628" y="363" text-anchor="middle" fill="#F0EDE1" font-size="12" font-family="DM Serif Display,serif">Fakultätsrat</text>
-            <text x="628" y="378" text-anchor="middle" fill="rgba(172,187,125,0.7)" font-size="8.5" font-family="DM Sans,sans-serif">St: 2 / AM: 2 / SM: 2 / HL: 7</text>
-            <text x="628" y="393" text-anchor="middle" fill="rgba(240,237,225,0.4)" font-size="8" font-family="DM Sans,sans-serif">Fak. III für uns</text>
-          </g>
-
-          <!-- Dekan*in + Fakultätsverwaltung -->
-          <g class="hopo-svg-node" data-title="Dekan*in / Prodekan*in & Fakultätsverwaltung"
-             data-body="Wird vom Fakultätsrat gewählt. Leitet die Fakultät und verantwortet Lehre, Forschung und Personal auf Fakultätsebene."
-             style="cursor:pointer;">
-            <rect x="790" y="340" width="100" height="42" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.18)" stroke-width="1.5"/>
-            <text x="840" y="357" text-anchor="middle" fill="#F0EDE1" font-size="9.5" font-family="DM Serif Display,serif">Dekan*in /</text>
-            <text x="840" y="370" text-anchor="middle" fill="#F0EDE1" font-size="9.5" font-family="DM Serif Display,serif">Prodekan*in</text>
-            <rect x="790" y="384" width="100" height="26" rx="2" fill="rgba(240,237,225,0.02)" stroke="rgba(240,237,225,0.1)" stroke-dasharray="3,2" stroke-width="1"/>
-            <text x="840" y="401" text-anchor="middle" fill="rgba(240,237,225,0.4)" font-size="7.5" font-family="DM Sans,sans-serif">Fakultätsverwaltung</text>
-          </g>
-
-          <!-- Institutsrat -->
-          <g class="hopo-svg-node" data-title="Institutsrat (InstRat)"
-             data-body="Entscheidet auf Institutsebene über Forschung und Lehre. Regulär: St:1, für Architektur/Chemie/Mathematik: St:2. Fak. III hat 6 Institute. Alle 2 Jahre gewählt."
-             style="cursor:pointer;">
-            <rect x="540" y="430" width="175" height="65" rx="3" fill="rgba(172,187,125,0.05)" stroke="rgba(172,187,125,0.3)" stroke-width="1.5"/>
-            <text x="628" y="454" text-anchor="middle" fill="#F0EDE1" font-size="12" font-family="DM Serif Display,serif">Institutsrat</text>
-            <text x="628" y="469" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="8" font-family="DM Sans,sans-serif">regulär: St:1 / AM:1 / SM:1 / HL:4</text>
-            <text x="628" y="482" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="8" font-family="DM Sans,sans-serif">Archit./Chem./Math.: St:2 / HL:7</text>
-          </g>
-
-          <!-- Geschäftsführende Direktor*in -->
-          <g class="hopo-svg-node" data-title="Geschäftsführende*r Direktor*in & Institutsverwaltung"
-             data-body="Wird vom Institutsrat gewählt. Leitet das Institut auf operativer Ebene."
-             style="cursor:pointer;">
-            <rect x="790" y="430" width="100" height="40" rx="3" fill="rgba(240,237,225,0.04)" stroke="rgba(240,237,225,0.18)" stroke-width="1.5"/>
-            <text x="840" y="448" text-anchor="middle" fill="#F0EDE1" font-size="8.5" font-family="DM Serif Display,serif">Geschäftsführ.</text>
-            <text x="840" y="460" text-anchor="middle" fill="#F0EDE1" font-size="8.5" font-family="DM Serif Display,serif">Direktor*in</text>
-            <rect x="790" y="472" width="100" height="22" rx="2" fill="rgba(240,237,225,0.02)" stroke="rgba(240,237,225,0.1)" stroke-dasharray="3,2" stroke-width="1"/>
-            <text x="840" y="487" text-anchor="middle" fill="rgba(240,237,225,0.4)" font-size="7" font-family="DM Sans,sans-serif">Institutsverwaltung</text>
-          </g>
+          <div class="hopo-arrow">↑ wählen jedes Jahr</div>
 
           <!-- BLuB -->
-          <g class="hopo-svg-node" data-title="BLuB – Fachschaftsrat"
-             data-body="Unser Fachschaftsrat für Biotechnologie, Lebensmitteltechnologie und Brauerei- & Getränketechnologie. Komm zum Plenum – jeden 1. Dienstag im Monat, 18 Uhr, Café Erdreich!"
-             data-link="mailto:blub.tuberlin@gmail.com" style="cursor:pointer;">
-            <rect x="20" y="390" width="220" height="50" rx="3" fill="rgba(239,147,36,0.14)" stroke="var(--orange)" stroke-width="2"/>
-            <text x="130" y="412" text-anchor="middle" fill="var(--orange)" font-size="13" font-family="DM Serif Display,serif" font-weight="600">BLuB</text>
-            <text x="130" y="428" text-anchor="middle" fill="rgba(240,237,225,0.6)" font-size="8.5" font-family="DM Sans,sans-serif">Fachschaftsrat · Das sind wir!</text>
-          </g>
+          <div class="hopo-card-new" style="border-color:var(--orange); background:rgba(239,147,36,0.1);">
+            <div class="hopo-card-header">
+              <span class="hopo-card-title" style="color:var(--orange);">BLuB</span>
+              <span class="hopo-card-relation" style="color:var(--orange);">Das sind wir!</span>
+            </div>
+            <div class="hopo-card-detail">
+              <p>Fachschaftsrat für Biotechnologie, Lebensmitteltechnologie und Brauerei- & Getränketechnologie. Komm zum Plenum – jeden 1. Dienstag im Monat, 18 Uhr, Café Erdreich.</p>
+              <a href="mailto:blub.tuberlin@gmail.com">Kontakt aufnehmen →</a>
+            </div>
+          </div>
 
-          <!-- Fußleiste: Studierende der TU Berlin -->
-          <rect x="0" y="560" width="900" height="60" rx="0" fill="rgba(172,187,125,0.06)" stroke="rgba(172,187,125,0.15)" stroke-width="1"/>
-          <line x1="260" y1="560" x2="260" y2="620" stroke="rgba(239,147,36,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
-          <text x="130" y="590" text-anchor="middle" fill="rgba(239,147,36,0.7)" font-size="11" font-family="DM Sans,sans-serif" font-weight="600" letter-spacing="0.5">STUDIERENDE DER TU BERLIN</text>
-          <text x="585" y="582" text-anchor="middle" fill="rgba(172,187,125,0.6)" font-size="10" font-family="DM Sans,sans-serif" font-weight="600">MITGLIEDER DER TU BERLIN</text>
-          <text x="585" y="597" text-anchor="middle" fill="rgba(240,237,225,0.35)" font-size="8.5" font-family="DM Sans,sans-serif">St: Studierende · AM: Akademische Mitarb. · SM: Sonstige Mitarb. · HL: Hochschullehrer*innen</text>
-          <text x="585" y="612" text-anchor="middle" fill="rgba(240,237,225,0.25)" font-size="8" font-family="DM Sans,sans-serif">In Anlehnung an: EB104, 2011</text>
-        </svg>
-      </div>
+          <div style="margin-top:20px; padding-top:16px; border-top:1px solid rgba(239,147,36,0.15); font-size:0.75rem; color:var(--text-dim); text-align:center;">
+            Studierende der TU Berlin
+          </div>
+        </div>
 
-      <div class="hopo-links">
-        <a href="https://www.asta.tu-berlin.de/" target="_blank" class="hopo-link-btn">AStA TU Berlin</a>
-        <a href="https://www.tu.berlin/studierendenschaft/stupa" target="_blank" class="hopo-link-btn">StuPa TU Berlin</a>
-        <a href="https://www.tu.berlin/k3/wahlamt" target="_blank" class="hopo-link-btn">Wahlamt TU Berlin</a>
+        <!-- Rechte Spalte: Akademische Selbstverwaltung -->
+        <div style="background:rgba(172,187,125,0.03); border:1px solid rgba(172,187,125,0.1); padding:28px 24px;">
+          <p style="font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--sage); font-weight:600; margin-bottom:24px;">Akademische Selbstverwaltung</p>
+
+          <!-- Kuratorium + Präsidium nebeneinander -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px; margin-bottom:3px;">
+            <div class="hopo-card-new">
+              <div class="hopo-card-header">
+                <span class="hopo-card-title" style="font-size:0.88rem;">Kuratorium</span>
+              </div>
+              <div class="hopo-card-detail">
+                <p>Kontrolliert das Präsidium und wählt Kanzler*in. Bildungssenator*in + 6 externe Mitglieder + 4 TU-Mitglieder. <strong>St: 1 / AM: 1 / SM: 1 / HL: 1.</strong> Externe Mitglieder werden vom AS gewählt.</p>
+              </div>
+            </div>
+            <div class="hopo-card-new">
+              <div class="hopo-card-header">
+                <span class="hopo-card-title" style="font-size:0.88rem;">Präsident*in</span>
+                <span class="hopo-card-relation" style="color:var(--sage);">← eAS wählt</span>
+              </div>
+              <div class="hopo-card-detail">
+                <p>Leitet die TU strategisch. Präsident*in wird alle 4 Jahre vom eAS gewählt, Vizepräsident*innen alle 2 Jahre. Aktuell: Prof. Dr. Fatma Deniz.</p>
+                <a href="https://www.tu.berlin/ueber-die-tu-berlin/profil/praesidium" target="_blank">Mehr erfahren →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="hopo-arrow" style="color:var(--sage);">↑ alle TU-Mitglieder wählen alle 2 Jahre</div>
+
+          <!-- eAS + AS -->
+          <div class="hopo-card-new" style="border-color:rgba(239,147,36,0.35); background:rgba(239,147,36,0.05); margin-bottom:3px;">
+            <div class="hopo-card-header">
+              <span class="hopo-card-title">eAS & AS</span>
+              <span class="hopo-card-relation" style="color:var(--orange);">St: 10 + 4 Sitze</span>
+            </div>
+            <div class="hopo-card-detail">
+              <p><strong>eAS</strong> (10 Studi-Sitze): wählt Präsident*in (alle 4J) & Vizepräsident*innen (alle 2J).<br>
+              <strong>AS</strong> (4 Studi-Sitze): höchstes Beschlussgremium der TU – entscheidet über Satzungen, Studienordnungen. Wählt auch externe KU-Mitglieder.</p>
+              <a href="https://www.tu.berlin/k3/wahlamt" target="_blank">Wahlamt TU Berlin →</a>
+            </div>
+          </div>
+
+          <!-- FakRat + InstRat nebeneinander -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px;">
+            <div class="hopo-card-new" style="border-color:rgba(172,187,125,0.4); background:rgba(172,187,125,0.06);">
+              <div class="hopo-card-header">
+                <span class="hopo-card-title" style="font-size:0.88rem;">Fakultätsrat</span>
+                <span class="hopo-card-relation" style="color:var(--sage);">St: 2 Sitze</span>
+              </div>
+              <div class="hopo-card-detail">
+                <p>Entscheidet über Prüfungsordnungen, Lehrpläne und Personal – direkter Einfluss auf euer Studium! <strong>St: 2 / AM: 2 / SM: 2 / HL: 7.</strong> Wählt Dekan*in. BLuB → Fak. III.</p>
+              </div>
+            </div>
+            <div class="hopo-card-new" style="border-color:rgba(172,187,125,0.3); background:rgba(172,187,125,0.04);">
+              <div class="hopo-card-header">
+                <span class="hopo-card-title" style="font-size:0.88rem;">Institutsrat</span>
+                <span class="hopo-card-relation" style="color:var(--sage);">St: 1–2 Sitze</span>
+              </div>
+              <div class="hopo-card-detail">
+                <p>Entscheidet auf Institutsebene. Regulär: St:1, für Architektur/Chemie/Mathematik: St:2. Wählt geschäftsführende*n Direktor*in. Fak. III hat 6 Institute.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px; padding-top:16px; border-top:1px solid rgba(172,187,125,0.12); font-size:0.75rem; color:var(--text-dim); text-align:center;">
+            Alle TU-Mitglieder · St: Studierende · AM: Akademische Mitarb. · SM: Sonstige Mitarb. · HL: Hochschullehrer*innen
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
-
   <!-- CAMPUS-KARTE -->
   <section id="campus" style="background:rgba(240,237,225,0.02); border-top:1px solid rgba(240,237,225,0.07);">
     <div class="section-inner fade-in">
